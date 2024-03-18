@@ -28,6 +28,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-tiny-toast": "^1.0.7",
     "react-native-uuid": "^2.0.2",
+    "styled-components": "^6.1.8",
     "yup": "^1.4.0"
   },
   "devDependencies": {
