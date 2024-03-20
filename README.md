@@ -7,3 +7,17 @@ positive Money: #fcffff
 negative Money: #b96065
 Percent: #3bdd8a
 Arrow: #4586fb
+
+
+Key			        Descrição
+id			        Identificador exclusivo para ativo
+rank			    Classificação está em ordem crescente 
+symbol			    Símbolo mais comum usado para identificar este ativo em uma bolsa
+name			    Nome próprio do ativo
+supply			    Oferta disponível para negociação
+maxSupply		    Quantidade total de ativo emitido
+marketCapUsd		Oferta x preço
+volumeUsd24Hr		Uantidade de volume de negociação representado em dólares americanos nas últimas 24 horas
+priceUsd		    Preço ponderado por volume com base em dados de mercado em tempo real, traduzido para USD
+changePercent24Hr	A direção e a mudança de valor nas últimas 24 horas
+vwap24Hr		    Preço médio ponderado por volume nas últimas 24 horas
