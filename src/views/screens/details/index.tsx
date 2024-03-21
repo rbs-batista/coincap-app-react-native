@@ -5,14 +5,14 @@ import { ListItem, Avatar } from 'react-native-elements';
 
 export const Details = () => {
     return (
-        <View paddingX={3}>
+        <View paddingX={2}>
             <ListItem 
-              key={1}
-              containerStyle={{ backgroundColor: '#131a20', marginBottom: 10}}
+                key={1}
+                containerStyle={{ backgroundColor: '#131a20', marginBottom: 10}}
               >
               <Avatar
                 title={'BTC'}
-                overlayContainerStyle={{ backgroundColor: "#5F9EA0", color:'dde4eb' }}
+                overlayContainerStyle={{ backgroundColor: "#5F9EA0", color:'dde4eb'}}
               />
               <ListItem.Content>
                 <ListItem.Title style={{ color: '#dde4eb'}}>{"BITCOIN"}</ListItem.Title>

@@ -1,9 +1,9 @@
-import { Home, Assets, Order, Details } from '../views/screens';
 import React from "react"
+import { Home, Assets, Order, Details } from '../views/screens';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { StatusBar, View } from "react-native";
+import { useNavigation} from '@react-navigation/native';
  
 export type RootTabParamList = {
     Home: undefined;
@@ -20,7 +20,7 @@ const Theme = {
      colors: {
         ...DefaultTheme.colors,
          card:'#131a20',
-         primary: '#dde4eb',
+         primary: '#518ef1',
          background: '#131a20',
          text: '#dde4eb',
          border: '#1c2329',
@@ -38,11 +38,13 @@ export const Routes = () => {
                     component={Home}
                     options={
                         {
-                            tabBarIcon: ({color}) =>(
-                                <MaterialCommunityIcons name= "home-outline" color={color} size={23}/>
-                            ),
+                            tabBarIcon: ({color}) =><MaterialCommunityIcons name= "home-outline" color={color} size={23}/>,
+                            tabBarStyle: {paddingBottom: 5, backgroundColor: "#1d262f"},
                             title: 'Início',
+                            headerTitle: 'Saldo',
                             headerTitleAlign: 'center',
+                            headerLeft:() => <MaterialCommunityIcons name="menu" color={'#dde4eb'} size={25} style={{ marginLeft: 15 }} />,
+                            headerRight: () => <MaterialCommunityIcons name="bell" color={'#dde4eb'} size={25} style={{ marginRight: 15 }} />,
                         
                         }
                     }
@@ -52,11 +54,10 @@ export const Routes = () => {
                     component={Assets}
                     options={
                         {
-                            tabBarIcon: ({color}) =>(
-                                <MaterialCommunityIcons name= "folder-outline" color={color} size={23}/>
-                            ),
-                        title: 'Meus Ativos',
-                        headerTitleAlign: 'center',
+                            tabBarIcon: ({color}) =><MaterialCommunityIcons name= "folder-outline" color={color} size={23}/>,
+                            title: 'Meus Ativos',
+                            tabBarStyle: {paddingBottom: 5, backgroundColor: "#1d262f"},
+                            headerTitleAlign: 'center',
                         }
                     }
                 />
@@ -65,11 +66,10 @@ export const Routes = () => {
                     component={Order}
                     options={
                         {
-                            tabBarIcon: ({color}) =>(
-                                <MaterialCommunityIcons name= "text-box-outline" color={color} size={23}/>
-                            ),
-                        title: 'Ordens',
-                        headerTitleAlign: 'center',
+                            tabBarIcon: ({color}) => <MaterialCommunityIcons name= "text-box-outline" color={color} size={23}/>,
+                            title: 'Ordens',
+                            tabBarStyle: {paddingBottom: 5, backgroundColor: "#1d262f"},
+                            headerTitleAlign: 'center',
                         }
                     }
                 />
@@ -78,9 +78,17 @@ export const Routes = () => {
                     component={Details}
                     options={
                         {
-                        title: 'Detalhes',
-                        headerTitleAlign: 'center',
-                        tabBarButton: () => null
+                            title: 'Detalhes',
+                            headerTitleAlign: 'center',
+                            tabBarStyle: {paddingBottom: 5, backgroundColor: "#1d262f"},
+                            headerLeft: () => 
+                                <MaterialCommunityIcons 
+                                    name="chevron-left" 
+                                    color={'#dde4eb'} 
+                                    size={25} 
+                                    style={{ marginLeft: 15 }} 
+                                />,
+                            tabBarButton: () => null
                         }
                     }
                 />
