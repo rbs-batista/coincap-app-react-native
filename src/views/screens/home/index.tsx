@@ -14,7 +14,7 @@ export const Home = () => {
   async function getData() {
     try {
       const res = await Controller.Index(); // Aguarda a resolução da Promise
-      setAssets(res as AssetsModel[]);
+      setAssets(res);
     } catch (err) {
       console.error('Erro ao buscar dados:', err);
     }
@@ -79,6 +79,15 @@ export const Home = () => {
     },
   });
 
+  function convertNumb(value: string) {
+    const valorFloat: number = parseFloat(value);
+    return valorFloat.toFixed(2);
+  }
+
+  function isNegative(value: string): boolean {
+    const num = parseFloat(value);
+    return num < 0;
+  }
   return (
     <>
       <View style={styles.balanceContainer}>
@@ -108,16 +117,16 @@ export const Home = () => {
                 containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
               >
                 <Avatar
-                  title={item.avatar}
+                  title={item.symbol}
                   overlayContainerStyle={{ color: 'dde4eb' }}
                 />
                 <ListItem.Content>
-                  <ListItem.Title style={{ color: '#dde4eb' }}>{item.name}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>{item.averagePrice}</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>PM {convertNumb(item.vwap24Hr)} USD</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>{item.money}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#3bdd8a' }}>{item.percent}</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#fcffff' }}>{convertNumb(item.supply)} USD</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: isNegative(item.changePercent24Hr) ? '#b96065' : '#3bdd8a' }}>{convertNumb(item.changePercent24Hr)} %</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron style={{ color: '#3bdd8a' }} />
               </ListItem>

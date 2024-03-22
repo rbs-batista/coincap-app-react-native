@@ -1,17 +1,17 @@
 class AssetsModel {
     id: string;
-    avatar: string;
+    symbol: string;
     name: string;
-    averagePrice: string;
-    money: string;
-    percent: string
+    supply: string;
+    changePercent24Hr: string
+    vwap24Hr: string;
 
-    constructor(id: string, symbol: string, name: string, supply: string, averagePrice: string, changePercent: string) {
+    constructor(id: string, symbol: string, name: string, supply: string, vwap24Hr: string, changePercent24Hr: string) {
         this.id = id;
-        this.avatar = symbol;
+        this.symbol = symbol;
         this.name = name;
-        this.averagePrice = averagePrice;
-        this.money = supply;
-        this.percent = changePercent;
+        this.supply = supply;
+        this.vwap24Hr = vwap24Hr;
+        this.changePercent24Hr = changePercent24Hr;
     }
 }

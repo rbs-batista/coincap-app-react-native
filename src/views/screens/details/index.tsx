@@ -12,16 +12,16 @@ export const Details = () => {
                     containerStyle={{ backgroundColor: '#131a20', marginBottom: 10 }}
                 >
                     <Avatar
-                        title={'BTC'}
+                        title={'ETH'}
                         overlayContainerStyle={{ backgroundColor: "#5F9EA0", color: 'dde4eb' }}
                     />
                     <ListItem.Content>
-                        <ListItem.Title style={{ color: '#dde4eb' }}>{"BITCOIN"}</ListItem.Title>
-                        <ListItem.Subtitle style={{ color: '#eff1f3' }}>{"PM 1000"}</ListItem.Subtitle>
+                        <ListItem.Title style={{ color: '#dde4eb' }}>{"ETHEREUM"}</ListItem.Title>
+                        <ListItem.Subtitle style={{ color: '#eff1f3' }}>{"PM 415.32"}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                        <ListItem.Title style={{ color: '#fcffff' }}>{"R$ 200,00"}</ListItem.Title>
-                        <ListItem.Subtitle style={{ color: '#3bdd8a' }}>{"+0,65%"}</ListItem.Subtitle>
+                        <ListItem.Title style={{ color: '#fcffff' }}>{"101160540.00 USD"}</ListItem.Title>
+                        <ListItem.Subtitle style={{ color: '#b96065' }}>{"-0.77 %"}</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
                 <View
@@ -75,7 +75,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Oferta</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>R$ 1000,00</Text>
+                        <Text color='#dde4eb'>101160540.00 USD</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -84,7 +84,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Quantidade</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>2000</Text>
+                        <Text color='#dde4eb'>2927959461.17</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -93,7 +93,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Oferta x Preço</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>R$ 1000,00</Text>
+                        <Text color='#dde4eb'>40967739219.66 USD</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -102,16 +102,16 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Volume de negociação</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>R$ 1000,00</Text>
+                        <Text color='#dde4eb'>1026669440.64 USD</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
                         bottomDivider={true}
                     >
                         <ListItem.Content>
-                            <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Preço ponderado</ListItem.Title>
+                            <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Preço médio</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>R$ 3000,00</Text>
+                        <Text color='#dde4eb'>415.32 USD</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -120,7 +120,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Valor nas últimas 24 horas</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>R$ 6000,00</Text>
+                        <Text color='#b96065'>-0.77 %</Text>
                     </ListItem>
                 </View>
                 <View
