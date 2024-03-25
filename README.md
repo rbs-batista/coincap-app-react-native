@@ -12,10 +12,10 @@ Arrow: #4586fb
 Key			        Descrição
 id			        Identificador exclusivo para ativo
 rank			    Classificação está em ordem crescente 
-symbol			    Símbolo mais comum usado para identificar este ativo em uma bolsa
+symbol			    Símbolo mais comum usado para identificar o ativo 
 name			    Nome próprio do ativo
 supply			    Oferta disponível para negociação
-maxSupply		    Quantidade total de ativo emitido
+maxSupply		    Quantidade total de ativo emitidos
 marketCapUsd		Oferta x preço
 volumeUsd24Hr		Uantidade de volume de negociação representado em dólares americanos nas últimas 24 horas
 priceUsd		    Preço ponderado por volume com base em dados de mercado em tempo real, traduzido para USD

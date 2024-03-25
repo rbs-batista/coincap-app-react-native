@@ -1,10 +1,7 @@
-import React from "react"
-import { View, Text } from "native-base"
+import { List } from "./list";
+import { Details } from "../details";
 
-export const Assets = () => {
-    return (
-        <View>
-            <Text>Meus Ativos</Text>
-        </View>
-    )
-} 
+export {
+    List,
+    Details
+}

@@ -1,15 +1,17 @@
 import React from "react"
-import { Home, Assets, Order, Details } from '../views/screens';
+import { List, Details } from '../views/screens/assets';
+import { MyAssets } from '../views/screens/store';
+import { Order } from '../views/screens/order';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation} from '@react-navigation/native';
+
  
 export type RootTabParamList = {
-    Home: undefined;
-    Assets: undefined;
-    Order: undefined;
+    List: undefined;
     Details: undefined;
+    MyAssets: undefined;
+    Order: undefined;
 }
  
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -34,8 +36,8 @@ export const Routes = () => {
         <NavigationContainer theme={Theme}>
             <Tab.Navigator>
                 <Tab.Screen
-                    name="Home"
-                    component={Home}
+                    name="List"
+                    component={List}
                     options={
                         {
                             tabBarIcon: ({color}) =><MaterialCommunityIcons name= "home-outline" color={color} size={23}/>,
@@ -50,8 +52,8 @@ export const Routes = () => {
                     }
                 />
                 <Tab.Screen
-                    name="Assets"
-                    component={Assets}
+                    name="MyAssets"
+                    component={MyAssets}
                     options={
                         {
                             tabBarIcon: ({color}) =><MaterialCommunityIcons name= "folder-outline" color={color} size={23}/>,

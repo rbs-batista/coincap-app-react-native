@@ -5,11 +5,12 @@ import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Avatar, ListItem } from 'react-native-elements';
-import HomeController from '../../../controllers/home_controller';
+import HomeController from '../../../controllers/assets_controller';
+import { AssetModel } from '../../../models';
 
-export const Home = () => {
+export const List = () => {
   const Controller = new HomeController();
-  const [assets, setAssets] = useState<AssetsModel[]>([]); // Initialize with an empty array
+  const [assets, setAssets] = useState<AssetModel[]>([]); // Initialize with an empty array
 
   async function getData() {
     try {
@@ -117,16 +118,16 @@ export const Home = () => {
                 containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
               >
                 <Avatar
-                  title={item.symbol}
+                  title={item.avatar}
                   overlayContainerStyle={{ color: 'dde4eb' }}
                 />
                 <ListItem.Content>
                   <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>PM {convertNumb(item.vwap24Hr)} USD</ListItem.Subtitle>
+                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>PM {convertNumb(item.supply)} USD</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>{convertNumb(item.supply)} USD</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: isNegative(item.changePercent24Hr) ? '#b96065' : '#3bdd8a' }}>{convertNumb(item.changePercent24Hr)} %</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#fcffff' }}>{convertNumb(item.price)} USD</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: isNegative(item.percent) ? '#b96065' : '#3bdd8a' }}>{convertNumb(item.percent)} %</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron style={{ color: '#3bdd8a' }} />
               </ListItem>

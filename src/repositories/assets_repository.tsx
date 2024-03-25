@@ -1,37 +1,69 @@
+import {AssetModel} from "../models";
 export default class AssetsRepository {
 
     static async list() {
         try {
-            // var assets = [];
 
             return fetch('https://api.coincap.io/v2/assets')
-                .then((response) => response.json())
+                .then((res) => res.json())
                 .then((json) => {
-                    return json.data;
-                });
-            // return fetch('https://api.coincap.io/v2/assets',
-            //     {
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         }
+                    var assets = json.data.map((asset: { 
+                        id: string, 
+                        rank: string, 
+                        symbol: string, 
+                        name: string, 
+                        supply: string, 
+                        maxSupply: string,
+                        marketCapUsd: string,
+                        volumeUsd24Hr: string,
+                        priceUsd: string,
+                        changePercent24Hr: string,
+                        vwap24Hr: string, 
+                    }) => {
+                        return new AssetModel({
+                            id: asset.id, 
+                            rank: asset.rank,
+                            symbol: asset.supply,
+                            name: asset.name,
+                            supply: asset.supply,
+                            maxSupply: asset.maxSupply,
+                            marketCapUsd: asset.marketCapUsd,
+                            volumeUsd24Hr: asset.volumeUsd24Hr,
+                            priceUsd: asset.priceUsd,
+                            changePercent24Hr: asset.changePercent24Hr,
+                            vwap24Hr: asset.vwap24Hr
+                        })
+                    })    
 
-            //     }
-            // )
-            //     .then(res => {
-            //         console.log("data: " + res.json());
-            //         if (!res.ok) {
-            //             throw new Error('Erro ao buscar ativos: ' + res.status);
-            //         }
-            //         return res.json();
-            //     }).then((jsonData: any[]) => {
-            //         console.log("data: " + jsonData);
-            //         const assets = jsonData.map(asset => {
-            //             console.log(asset);
-            //             // return new AssetsModel(asset.id, asset.symbol, asset.name, asset.supply, asset.averagePrice, asset.changePercent);
-            //         })
-            //         console.log(jsonData);
-            //         return assets;
-            //     });
+                    return assets;
+                });
+        } catch (err) {
+            console.log('Erro ao buscar dados:', err);
+            throw err;
+        }
+    }
+
+    static async findById({id}: {id: string}) {
+        try {
+
+            return fetch('https://api.coincap.io/v2/assets/' + id)
+                .then((res) => res.json())
+                .then((json) => {
+                    const asset = json.data;    
+                    return new AssetModel({
+                        id: asset.id, 
+                        rank: asset.rank,
+                        symbol: asset.supply,
+                        name: asset.name,
+                        supply: asset.supply,
+                        maxSupply: asset.maxSupply,
+                        marketCapUsd: asset.marketCapUsd,
+                        volumeUsd24Hr: asset.volumeUsd24Hr,
+                        priceUsd: asset.priceUsd,
+                        changePercent24Hr: asset.changePercent24Hr,
+                        vwap24Hr: asset.vwap24Hr
+                    });
+                });
         } catch (err) {
             console.log('Erro ao buscar dados:', err);
             throw err;
