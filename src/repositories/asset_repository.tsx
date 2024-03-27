@@ -1,5 +1,5 @@
 import {AssetModel} from "../models";
-export default class AssetsRepository {
+export default class AssetRepository {
 
     static async list() {
         try {

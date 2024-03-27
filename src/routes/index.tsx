@@ -1,5 +1,5 @@
 import React from "react"
-import { List, Details } from '../views/screens/assets';
+import { List, Detail } from '../views/screens/assets';
 import { MyAssets } from '../views/screens/store';
 import { Order } from '../views/screens/order';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
@@ -9,7 +9,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
  
 export type RootTabParamList = {
     List: undefined;
-    Details: undefined;
+    Detail: undefined;
     MyAssets: undefined;
     Order: undefined;
 }
@@ -76,8 +76,8 @@ export const Routes = () => {
                     }
                 />
                 <Tab.Screen
-                    name="Details"
-                    component={Details}
+                    name="Detail"
+                    component={Detail}
                     options={
                         {
                             title: 'Detalhes',

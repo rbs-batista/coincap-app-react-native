@@ -1,7 +1,7 @@
 import { List } from "./list";
-import { Details } from "../details";
+import { Detail } from "./detail";
 
 export {
     List,
-    Details
+    Detail
 }

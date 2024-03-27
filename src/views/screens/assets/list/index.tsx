@@ -1,21 +1,26 @@
 import { FlatList, ScrollView, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-
+import { TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Avatar, ListItem } from 'react-native-elements';
-import HomeController from '../../../controllers/assets_controller';
-import { AssetModel } from '../../../models';
+import AssetController from '../../../../controllers/asset_controller';
+import { AssetModel } from '../../../../models';
+import styles from "./styles";
 
 export const List = () => {
-  const Controller = new HomeController();
-  const [assets, setAssets] = useState<AssetModel[]>([]); // Initialize with an empty array
+  const Controller = new AssetController();
+  const [assets, setAssets] = useState<AssetModel[]>([]);
+  const [filteredAssets, setFilteredAssets] = useState<AssetModel[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   async function getData() {
     try {
-      const res = await Controller.Index(); // Aguarda a resolução da Promise
+
+      const res = await Controller.Index();
+      setFilteredAssets(res);
       setAssets(res);
+
     } catch (err) {
       console.error('Erro ao buscar dados:', err);
     }
@@ -25,60 +30,23 @@ export const List = () => {
     getData();
   }, []);
 
+  useEffect(() => {
+    const results = assets.filter(asset =>
+      asset.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredAssets(results);
+  }, [searchQuery, assets]);
+
   const navigation = useNavigation();
 
-  const handleNavigate = () => {
-    navigation.navigate('Details' as never);
+  const handleNavigate = ({id} : {id: string}) => {
+    // navigation.navigate('Detail', {});
   };
-
-  const [searchQuery, setSearchQuery] = useState('');
 
   const clearInput = () => setSearchQuery('');
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
-
-  const styles = StyleSheet.create({
-    balanceContainer: {
-      backgroundColor: '#131a20',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    balanceTitle: {
-      fontSize: 18,
-      color: '#dde4eb',
-    },
-    balance: {
-      padding: 40,
-      fontSize: 32,
-      color: '#dde4eb',
-      fontWeight: 'bold',
-    },
-    searchContainer: {
-      flexDirection: 'row',
-      backgroundColor: '#131a20',
-      alignItems: 'center',
-      position: 'relative',
-      padding: 10,
-      marginBottom: 20
-    },
-    searchInput: {
-      backgroundColor: '#1c2329',
-      borderRadius: 20,
-      fontSize: 16,
-      color: '#dde4eb',
-      flex: 1,
-      paddingVertical: 10,
-      paddingLeft: 15,
-    },
-    clearIcon: {
-      position: 'absolute',
-      right: 20,
-      height: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
 
   function convertNumb(value: string) {
     const valorFloat: number = parseFloat(value);
@@ -110,9 +78,9 @@ export const List = () => {
       </View>
       <ScrollView>
         <FlatList
-          data={assets}
+          data={filteredAssets}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleNavigate()}>
+            <TouchableOpacity onPress={() => handleNavigate({id: item.id})}>
               <ListItem
                 key={item.id}
                 containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}

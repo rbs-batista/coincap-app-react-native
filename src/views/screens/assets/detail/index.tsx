@@ -1,27 +1,48 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Button, ScrollView, Text, View } from "native-base";
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import { Avatar, ListItem } from 'react-native-elements';
+import AssetController from "../../../../controllers/asset_controller";
+import { AssetModel } from "../../../../models";
 
-export const Details = () => {
+export const Detail = () => {
+    const controller = new AssetController();
+    const [asset, setAsset] = useState<AssetModel>();
+    
+    // const { id } = route.params;
+
+    async function getData() {
+        try {
+    
+          const res = await controller.Detail({id: 'bitcoin'});
+          setAsset(res);
+    
+        } catch (err) {
+          console.error('Erro ao buscar dados:', err);
+        }
+      }
+
+    useEffect(() => {
+        getData()
+    },[]);
     return (
         <ScrollView>
             <View paddingX={2}>
                 <ListItem
-                    key={1}
+                    key={asset?.id} 
                     containerStyle={{ backgroundColor: '#131a20', marginBottom: 10 }}
                 >
                     <Avatar
-                        title={'ETH'}
+                        title={asset?.avatar}
                         overlayContainerStyle={{ backgroundColor: "#5F9EA0", color: 'dde4eb' }}
                     />
                     <ListItem.Content>
-                        <ListItem.Title style={{ color: '#dde4eb' }}>{"ETHEREUM"}</ListItem.Title>
-                        <ListItem.Subtitle style={{ color: '#eff1f3' }}>{"PM 415.32"}</ListItem.Subtitle>
+                        <ListItem.Title style={{ color: '#dde4eb' }}>{asset?.name}</ListItem.Title>
+                        <ListItem.Subtitle style={{ color: '#eff1f3' }}>{asset?.marketCap}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                        <ListItem.Title style={{ color: '#fcffff' }}>{"101160540.00 USD"}</ListItem.Title>
-                        <ListItem.Subtitle style={{ color: '#b96065' }}>{"-0.77 %"}</ListItem.Subtitle>
+                        <ListItem.Title style={{ color: '#fcffff' }}>{asset?.price}</ListItem.Title>
+                        <ListItem.Subtitle style={{ color: '#b96065' }}>{asset?.percent}</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
                 <View
@@ -33,8 +54,8 @@ export const Details = () => {
                     }}>
                     <View
                         style={{
-                            flexDirection: 'row', // Para alinhar o ícone e o texto horizontalmente
-                            alignItems: 'center', // Para alinhar verticalmente o ícone e o texto
+                            flexDirection: 'row',
+                            alignItems: 'center',
                         }}>
                         <MaterialCommunityIcons name="calendar-clock" color={'#f0cb36'} size={30} />
                         <Text style={{ color: '#fff', fontSize: 20, marginLeft: 20 }}>Mercado Fechado</Text>
@@ -75,7 +96,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Oferta</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>101160540.00 USD</Text>
+                        <Text color='#dde4eb'>{asset?.supply}</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -84,7 +105,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Quantidade</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>2927959461.17</Text>
+                        <Text color='#dde4eb'>{asset?.maxSupply}</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -93,7 +114,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Oferta x Preço</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>40967739219.66 USD</Text>
+                        <Text color='#dde4eb'>{asset?.marketCap}</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -102,7 +123,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Volume de negociação</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>1026669440.64 USD</Text>
+                        <Text color='#dde4eb'>{asset?.volume}</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -111,7 +132,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Preço médio</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>415.32 USD</Text>
+                        <Text color='#dde4eb'>{asset?.price}</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
@@ -120,7 +141,7 @@ export const Details = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Valor nas últimas 24 horas</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#b96065'>-0.77 %</Text>
+                        <Text color='#b96065'>{asset?.percent} %</Text>
                     </ListItem>
                 </View>
                 <View
