@@ -4,7 +4,7 @@ export default class AssetController {
     async Index() {
         try {
 
-            const assets = await AssetRepository.list();
+            const assets = await AssetRepository.all();
 
             return assets;
         } catch (err) {
