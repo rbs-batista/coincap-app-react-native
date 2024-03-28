@@ -1,6 +1,5 @@
-import {AssetModel} from "../models";
+import {AssetModel, AssetHistoryModel} from "../models";
 import ApiAdapter from "../infrastructure/adapter/api_adapter";
-import { AssetHistoryModel } from "../models/asset_history_model";
 export default class AssetRepository {
 
     static async all() {
