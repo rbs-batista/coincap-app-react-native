@@ -6,25 +6,22 @@ import AssetController from "../../../../controllers/asset_controller";
 import { AssetModel } from "../../../../models";
 
 export const Detail = () => {
-    const controller = new AssetController();
+
     const [asset, setAsset] = useState<AssetModel>();
     
-    // const { id } = route.params;
-
-    async function getData() {
-        try {
-    
-          const res = await controller.Detail({id: 'bitcoin'});
-          setAsset(res);
-    
-        } catch (err) {
-          console.error('Erro ao buscar dados:', err);
-        }
-      }
-
     useEffect(() => {
-        getData()
-    },[]);
+        const fetchData = async () => {
+            try {
+                const res = await AssetController.detail({id: 'bitcoin'});
+                setAsset(res);
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+            }
+        };
+    
+        fetchData();
+    }, []);
+
     return (
         <ScrollView>
             <View paddingX={2}>

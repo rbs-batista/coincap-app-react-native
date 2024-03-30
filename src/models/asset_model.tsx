@@ -1,3 +1,5 @@
+import { MoneyFormat } from "../helpers";
+
 export class AssetModel {
     id: string;
     rank: string;
@@ -28,12 +30,12 @@ export class AssetModel {
         this.rank = rank, 
         this.avatar = symbol, 
         this.name = name, 
-        this.price = parseFloat(priceUsd),
-        this.percent = parseFloat(changePercent24Hr),
-        this.supply = parseFloat(supply), 
-        this.maxSupply = parseFloat(maxSupply),
-        this.marketCap = parseFloat(marketCapUsd),
-        this.volume = parseFloat(volumeUsd24Hr),
-        this.averagePrice = parseFloat(vwap24Hr) 
+        this.price = MoneyFormat.format({value: priceUsd}),
+        this.percent = MoneyFormat.format({value: priceUsd}),
+        this.supply = MoneyFormat.format({value: priceUsd}), 
+        this.maxSupply = MoneyFormat.format({value: priceUsd}),
+        this.marketCap = MoneyFormat.format({value: priceUsd}),
+        this.volume = MoneyFormat.format({value: priceUsd}),
+        this.averagePrice = MoneyFormat.format({value: priceUsd}) 
     }
 }

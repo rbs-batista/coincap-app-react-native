@@ -1,3 +1,4 @@
+import React from "react";
 import { Input as NativeBaseInput, IInputProps, FormControl } from "native-base";
 
 type InputProps = IInputProps &{

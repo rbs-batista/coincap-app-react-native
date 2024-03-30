@@ -2,32 +2,29 @@ import { FlatList, ScrollView, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from '../../../../controllers/asset_controller';
 import { AssetModel } from '../../../../models';
+import { Money } from '../../../../helpers';
 import styles from "./styles";
 
 export const List = () => {
-  const Controller = new AssetController();
   const [assets, setAssets] = useState<AssetModel[]>([]);
   const [filteredAssets, setFilteredAssets] = useState<AssetModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  async function getData() {
-    try {
-
-      const res = await Controller.Index();
-      setFilteredAssets(res);
-      setAssets(res);
-
-    } catch (err) {
-      console.error('Erro ao buscar dados:', err);
-    }
-  }
-
   useEffect(() => {
-    getData();
+      const fetchData = async () => {
+        try {
+          const res = await AssetController.index();
+            setFilteredAssets(res?? []);
+            setAssets(res ?? []);
+        } catch (error) {
+            console.error('Erro ao buscar dados:', error);
+        }
+      };
+
+      fetchData();
   }, []);
 
   useEffect(() => {
@@ -37,26 +34,13 @@ export const List = () => {
     setFilteredAssets(results);
   }, [searchQuery, assets]);
 
-  const navigation = useNavigation();
-
-  const handleNavigate = ({id} : {id: string}) => {
-    // navigation.navigate('Detail', {});
-  };
+  const handleNavigate = ({id} : {id: string}) => {};
 
   const clearInput = () => setSearchQuery('');
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
 
-  function convertNumb(value: string) {
-    const valorFloat: number = parseFloat(value);
-    return valorFloat.toFixed(2);
-  }
-
-  function isNegative(value: string): boolean {
-    const num = parseFloat(value);
-    return num < 0;
-  }
   return (
     <>
       <View style={styles.balanceContainer}>
@@ -90,12 +74,12 @@ export const List = () => {
                   overlayContainerStyle={{ color: 'dde4eb' }}
                 />
                 <ListItem.Content>
-                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>PM {convertNumb(item.supply)} USD</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>item.name</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>item.supply USD</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>{convertNumb(item.price)} USD</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: isNegative(item.percent) ? '#b96065' : '#3bdd8a' }}>{convertNumb(item.percent)} %</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#fcffff' }}>item.price USD</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: Money.isNegative({value: item.percent}) }}>item.percent %</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron style={{ color: '#3bdd8a' }} />
               </ListItem>
