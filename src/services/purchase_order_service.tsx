@@ -6,36 +6,26 @@ import { OrderTypeEnum } from "../enums";
 export default class PurchaseOrderService {
 
     static async store({assetId, amount} : {assetId: string, amount: number}): Promise<void>{
-        try {
-            const asset = await AssetService.findById({id: assetId});
 
-            const product = await StoreService.buy({assetId: assetId, amount: amount});
+        const asset = await AssetService.findById({id: assetId});
 
-            await OrderService.create({asset: asset, product: product, 
-                                       type: OrderTypeEnum.BUY, amount: amount});
+        const product = await StoreService.buy({assetId: assetId, amount: amount});
 
-        } catch(err) {
-            throw(err);
-        } finally {
+        await OrderService.create({asset: asset, product: product, 
+                                    type: OrderTypeEnum.BUY, amount: amount});
 
-        }
     }
 
     static async sale({id, amount}: {id: string, amount: number}): Promise<void> {
-        try {
-            const asset = await AssetService.findById({id: id});
 
-            const product = await StoreService.findById({id: id});
+        const asset = await AssetService.findById({id: id});
 
-            await StoreService.sale({assetId: id, amount: amount});
+        const product = await StoreService.findById({id: id});
 
-            await OrderService.create({asset: asset, product: product, 
-                                       type: OrderTypeEnum.SALE, amount: amount});
+        await StoreService.sale({assetId: id, amount: amount});
 
-        } catch(err) {
-            throw(err);
-        } finally {
+        await OrderService.create({asset: asset, product: product, 
+                                    type: OrderTypeEnum.SALE, amount: amount});
 
-        }
     }
 }

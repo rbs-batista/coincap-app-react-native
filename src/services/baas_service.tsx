@@ -1,33 +1,31 @@
+import { BalanceEntity } from "../entities/balance_entity";
+import { BalanceModel } from "../models/balance_model";
 import BaasRepository from "../repositories/baas_repository";
 export default class BaasService {
     
-    static async getBalance() {
-        try{ 
-            return BaasRepository.getBalance();
-        } catch (err) {
-            throw(err);
-        }
+    static async getBalance(): Promise<BalanceModel> {
+        return BaasRepository.getBalance();
     }
 
-    static async credit({amount}:{amount: number}) {
-        try{ 
-            var balance = await this.getBalance();
-            const newAmount = balance.amount += amount; 
+    static async credit({amount}:{amount: number}): Promise<void> {
 
-            await BaasRepository.updateBalance({amount: newAmount});
-        } catch (err) {
-            throw(err);
-        }
+        const balance = await this.getBalance();
+
+        const balanceEntity = new BalanceEntity({
+            amount: balance.amount - amount
+        });
+
+        await BaasRepository.updateBalance({balance: balanceEntity});
     }
 
-    static async debit({amount}:{amount: number}) {
-        try{ 
-            var balance = await this.getBalance();
-            const newAmount = balance.amount -= amount; 
+    static async debit({amount}:{amount: number}): Promise<void> {
 
-            await BaasRepository.updateBalance({amount: newAmount});
-        } catch (err) {
-            throw(err);
-        }
+        const balance = await this.getBalance();
+
+        const balanceEntity = new BalanceEntity({
+            amount: balance.amount - amount
+        });
+
+        await BaasRepository.updateBalance({balance: balanceEntity});
     }
 }

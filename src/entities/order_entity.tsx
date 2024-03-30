@@ -1,4 +1,4 @@
-import { OrderTypeEnum, OrderTypeToEnum} from '../enums';
+import { OrderTypeEnum } from '../enums';
 import Uuid from 'react-native-uuid';
 export class OrderEntity{
     id: string;

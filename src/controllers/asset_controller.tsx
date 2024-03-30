@@ -1,7 +1,8 @@
+import { AssetModel } from "../models";
 import AssetRepository from "../repositories/asset_repository";
 
 export default class AssetController {
-    async Index() {
+    async index() {
         try {
 
             const assets = await AssetRepository.all();
@@ -12,9 +13,9 @@ export default class AssetController {
         }
     }
 
-    async Detail({ id }:{ id: string }) {
+    async detail({ id }:{ id: string }) {
         try {
-            const detail = await AssetRepository.findById({ id: id });
+            const detail = await AssetRepository.findById({id: id});
 
             return detail;
         } catch(err) {

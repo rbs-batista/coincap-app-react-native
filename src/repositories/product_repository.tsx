@@ -1,5 +1,4 @@
 import StorageAdapter from "../infrastructure/adapter/storage_adapter";
-import Uuid from 'react-native-uuid';
 import { ProductModel } from "../models";
 import { ProductEntity } from "../entities";
 
@@ -52,7 +51,6 @@ export default class ProductRepository {
     static async create({assetId, amount}:{assetId: string, amount: number}): Promise<ProductModel> {
 
         const productEntity = new ProductEntity({
-            id: Uuid.v4.toString(),
             assetId: assetId,
             amount: amount
         });
