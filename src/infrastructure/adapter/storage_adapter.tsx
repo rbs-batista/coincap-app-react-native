@@ -9,9 +9,9 @@ export default class StorageAdapter {
     }
 
     async findById({id}:{id: string}) {
-        const orders = await this.all();
+        const res = await this.all();
 
-        return orders.find((order: { id: string; }) => order.id === id);
+        return res.find((item: { id: string }) => item.id === id);
     }
 
     async create({data}: {data: any}) {
@@ -23,12 +23,26 @@ export default class StorageAdapter {
         return await AsyncStorageDriver.save(this.key, data);
     }
 
+    async update ({id, data}: {id: string, data: any}) {
+        const res = await this.all();
+
+        const currentData = res.filter((item: { id: string }) => item.id != id);
+
+        currentData.add(data);
+
+        return await AsyncStorageDriver.save(this.key, currentData);
+    }
+
+    async updateAll({data}:{data: any}) {
+        return await AsyncStorageDriver.save(this.key, data);
+    }
+
     async delete({id}:{id: string}) {
-        const orders = await this.all();
+        const res = await this.all();
 
-        const currentOrders = orders.filter((order: { id: string; }) => order.id != id);
+        const currentData = res.filter((item: { id: string; }) => item.id != id);
 
-        return await AsyncStorageDriver.save(this.key, currentOrders);
+        return await AsyncStorageDriver.save(this.key, currentData);
     }
 
     private async isKey() : Promise<boolean>{
