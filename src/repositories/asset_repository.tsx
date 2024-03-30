@@ -2,7 +2,7 @@ import {AssetModel, AssetHistoryModel} from "../models";
 import ApiAdapter from "../infrastructure/adapter/api_adapter";
 export default class AssetRepository {
 
-    static async all() {
+    static async all(): Promise<[AssetModel]> {
             
         const res = await ApiAdapter.getAllAsset();
         const assets = res.map((asset: { 
@@ -36,7 +36,7 @@ export default class AssetRepository {
         return assets;
     }
 
-    static async findById({id}: {id: string}) {
+    static async findById({id}: {id: string}): Promise<AssetModel> {
 
         const res = await ApiAdapter.getByAssetId({id: id});
         const asset = new AssetModel({
@@ -56,7 +56,7 @@ export default class AssetRepository {
         return asset;
     }
 
-    static async findByIdAndInterval({id, interval}:{id: string, interval: string}) {
+    static async findByIdAndInterval({id, interval}:{id: string, interval: string}): Promise<[AssetHistoryModel]> {
         const res = await ApiAdapter.getByAssetIdAndInterval({id: id, interval: interval});
         const stories = res.map((history: {
             priceUsd: string; 

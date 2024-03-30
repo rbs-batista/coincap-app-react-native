@@ -1,13 +1,14 @@
+import Uuid from 'react-native-uuid';
 export class ProductEntity{
     id: string;
     assetId: string;
     amount: number;
 
     constructor(
-        {id, assetId, amount}: 
-        {id: string, assetId: string, amount: number}
+        {assetId, amount}: 
+        {assetId: string, amount: number}
     ) {
-        this.id = id,
+        this.id = Uuid.v4.toString(),
         this.assetId = assetId,
         this.amount = amount
     }

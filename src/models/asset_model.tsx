@@ -3,13 +3,13 @@ export class AssetModel {
     rank: string;
     avatar: string;
     name: string;
-    price: string;
-    percent: string
-    supply: string;
-    maxSupply: string;
-    marketCap: string;
-    volume: string;
-    averagePrice: string;
+    price: number;
+    percent: number
+    supply: number;
+    maxSupply: number;
+    marketCap: number;
+    volume: number;
+    averagePrice: number;
 
     constructor({id, rank, symbol, name, supply, maxSupply, marketCapUsd, volumeUsd24Hr, priceUsd, changePercent24Hr, vwap24Hr} : {
         id: string, 
@@ -28,12 +28,12 @@ export class AssetModel {
         this.rank = rank, 
         this.avatar = symbol, 
         this.name = name, 
-        this.price = priceUsd,
-        this.percent = changePercent24Hr,
-        this.supply = supply, 
-        this.maxSupply = maxSupply,
-        this.marketCap = marketCapUsd,
-        this.volume = volumeUsd24Hr,
-        this.averagePrice = vwap24Hr 
+        this.price = parseFloat(priceUsd),
+        this.percent = parseFloat(changePercent24Hr),
+        this.supply = parseFloat(supply), 
+        this.maxSupply = parseFloat(maxSupply),
+        this.marketCap = parseFloat(marketCapUsd),
+        this.volume = parseFloat(volumeUsd24Hr),
+        this.averagePrice = parseFloat(vwap24Hr) 
     }
 }

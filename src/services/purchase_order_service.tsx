@@ -1,33 +1,18 @@
-import OrderRepository from "../repositories/order_repository";
 import StoreService from "./store_service";
 import AssetService from "./asset_service";
-import BaasService from "./baas_service";
+import OrderService from "./order_service";
+import { OrderTypeEnum } from "../enums";
 
 export default class PurchaseOrderService {
-    // static async all() {
-    //     try {
 
-    //     } catch(err) {
-    //         throw(err);
-    //     }
-    // }
-
-    // static async findById({id}:{id: string}) {
-    //     try {
-
-    //     } catch(err) {
-    //         throw(err);
-    //     }
-    // }
-
-    static async store({assetId, amount} : {assetId: string, amount: number}){
+    static async store({assetId, amount} : {assetId: string, amount: number}): Promise<void>{
         try {
             const asset = await AssetService.findById({id: assetId});
 
-            const productId = await StoreService.buy({assetId: assetId, amount: amount});
+            const product = await StoreService.buy({assetId: assetId, amount: amount});
 
-            await OrderRepository.create({assetId: assetId, productId: productId, assetName: asset.name, assetPercent: asset.percent,
-                                           assetPrice: asset.price, purchasePrice: amount, type: "buy"});
+            await OrderService.create({asset: asset, product: product, 
+                                       type: OrderTypeEnum.BUY, amount: amount});
 
         } catch(err) {
             throw(err);
@@ -36,17 +21,16 @@ export default class PurchaseOrderService {
         }
     }
 
-    static async sale({id, amount}: {id: string, amount: number}) {
+    static async sale({id, amount}: {id: string, amount: number}): Promise<void> {
         try {
             const asset = await AssetService.findById({id: id});
 
-            const store = await StoreService.findById({id: id});
+            const product = await StoreService.findById({id: id});
 
             await StoreService.sale({assetId: id, amount: amount});
 
-
-            await OrderRepository.create({assetId: assetId, productId: productId, assetName: asset.name, assetPercent: asset.percent,
-                assetPrice: asset.price, purchasePrice: amount, type: "buy"});
+            await OrderService.create({asset: asset, product: product, 
+                                       type: OrderTypeEnum.SALE, amount: amount});
 
         } catch(err) {
             throw(err);

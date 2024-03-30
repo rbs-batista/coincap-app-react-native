@@ -1,9 +1,9 @@
 export class AssetHistoryModel {
-    price: string;
+    price: number;
     date: Date;
 
     constructor({price, date} : {price: string, date: number}) {
-        this.price = price;
+        this.price = parseFloat(price);
         this.date = new Date(date);
     }
 }

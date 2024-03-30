@@ -39,7 +39,7 @@ export default class StoreService {
         return product;
     }
 
-    static async sale({assetId, amount}:{assetId: string, amount: number}) {
+    static async sale({assetId, amount}:{assetId: string, amount: number}): Promise<void> {
 
         var product = await ProductRepository.findById({id: assetId});
 
