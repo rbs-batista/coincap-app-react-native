@@ -2,17 +2,16 @@
 
 export const Money = {
 
-    format({value}: {value: string}): number{
-      if(value != null) {
+    format({value}: {value: string | number}): number{
+
+      if(value == null) return 0;
+
+      if(typeof value === 'string') {
         const valorFloat: number = parseFloat(value);
 
         return parseFloat(valorFloat.toFixed(2));
       }
 
-      return 0;
+      return parseFloat(value.toFixed(2));
     },
-
-    isNegative({value}: {value: number}): string {
-      return value < 0 ? '#b96065' : '#3bdd8a';
-    }
   }

@@ -21,7 +21,7 @@ export default class AssetRepository {
             return new AssetModel({
                 id: asset.id, 
                 rank: asset.rank,
-                symbol: asset.supply,
+                symbol: asset.symbol,
                 name: asset.name,
                 supply: asset.supply,
                 maxSupply: asset.maxSupply,

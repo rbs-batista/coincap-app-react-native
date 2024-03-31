@@ -9,7 +9,7 @@ export default class AssetController {
 
             return assets;
         } catch (err) {
-            console.log(err);
+            throw(err);
         }
     }
 
@@ -19,7 +19,7 @@ export default class AssetController {
 
             return detail;
         } catch(err) {
-            console.log(err);
+            throw(err);
         }
     }
 }

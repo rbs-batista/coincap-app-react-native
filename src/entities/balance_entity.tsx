@@ -1,3 +1,5 @@
+import { Money } from "../helpers";
+
 export class BalanceEntity{
     amount: number;
 
@@ -5,6 +7,6 @@ export class BalanceEntity{
         {amount}: 
         {amount: number}
     ) {
-        this.amount = amount
+        this.amount = Money.format({value: amount});
     }
 }

@@ -3,17 +3,19 @@ import { BalanceModel } from "../models/balance_model";
 import BaasRepository from "../repositories/baas_repository";
 export default class BaasService {
     
-    static async getBalance(): Promise<BalanceModel> {
-        return BaasRepository.getBalance();
+    static async getBalance(): Promise<BalanceModel | null> {
+        return await BaasRepository.getBalance();
     }
 
     static async credit({amount}:{amount: number}): Promise<void> {
 
         const balance = await this.getBalance();
 
-        const balanceEntity = new BalanceEntity({
-            amount: balance.amount - amount
-        });
+        var balanceEntity = new BalanceEntity({amount: amount});
+
+        if(balance != null) {
+            balanceEntity.amount = balance.amount + amount;
+        }
 
         await BaasRepository.updateBalance({balance: balanceEntity});
     }
@@ -22,9 +24,11 @@ export default class BaasService {
 
         const balance = await this.getBalance();
 
-        const balanceEntity = new BalanceEntity({
-            amount: balance.amount - amount
-        });
+        var balanceEntity = new BalanceEntity({amount: amount});
+
+        if(balance != null) {
+            balanceEntity.amount = balance.amount - amount;
+        }
 
         await BaasRepository.updateBalance({balance: balanceEntity});
     }

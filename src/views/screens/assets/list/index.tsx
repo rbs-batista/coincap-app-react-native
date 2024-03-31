@@ -4,11 +4,14 @@ import { TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from '../../../../controllers/asset_controller';
-import { AssetModel } from '../../../../models';
-import { Money } from '../../../../helpers';
+import { AssetModel, BalanceModel } from '../../../../models';
+import { Util, Loading, Dialog } from '../../../../helpers';
 import styles from "./styles";
+import BaasController from '../../../../controllers/baas_controller';
+import Toast from 'react-native-tiny-toast';
 
 export const List = () => {
+  const [balance, setBalance] = useState<BalanceModel | null>();
   const [assets, setAssets] = useState<AssetModel[]>([]);
   const [filteredAssets, setFilteredAssets] = useState<AssetModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,11 +19,16 @@ export const List = () => {
   useEffect(() => {
       const fetchData = async () => {
         try {
+          Loading.start();
+          const balance = await BaasController.balance();
           const res = await AssetController.index();
+            setBalance(balance);
             setFilteredAssets(res?? []);
             setAssets(res ?? []);
-        } catch (error) {
-            console.error('Erro ao buscar dados:', error);
+          Loading.finished();
+        } catch (err) {
+          Loading.finished();
+          Dialog.error({message: 'Erro ao buscar dados'});
         }
       };
 
@@ -32,6 +40,7 @@ export const List = () => {
       asset.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredAssets(results);
+
   }, [searchQuery, assets]);
 
   const handleNavigate = ({id} : {id: string}) => {};
@@ -44,7 +53,7 @@ export const List = () => {
   return (
     <>
       <View style={styles.balanceContainer}>
-        <Text style={styles.balance}>R$ 1.234,56</Text>
+        <Text style={styles.balance}>R$ {balance?.amount ?? 0.00}</Text>
       </View>
       <View style={styles.searchContainer}>
         <TextInput
@@ -71,15 +80,22 @@ export const List = () => {
               >
                 <Avatar
                   title={item.avatar}
-                  overlayContainerStyle={{ color: 'dde4eb' }}
+                  titleStyle={{ 
+                    fontSize: 20, 
+                    backgroundColor: Util.cryptoBackgroundColor({symbol: item.symbol}),
+                    borderRadius: 100,
+                    paddingHorizontal: 5
+                  }}
+                  overlayContainerStyle={{ color: 'dde4eb'}}
+                  rounded
                 />
                 <ListItem.Content>
-                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>item.name</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>item.supply USD</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>{item.supply} USD</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>item.price USD</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: Money.isNegative({value: item.percent}) }}>item.percent %</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#fcffff' }}>{item.price} USD</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: Util.isNegative({value: item.percent}) }}>{item.percent} %</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron style={{ color: '#3bdd8a' }} />
               </ListItem>

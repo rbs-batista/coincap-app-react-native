@@ -4,12 +4,9 @@ export default class CoincapDriver {
 
     static async get(endpoint: string): Promise<any> {
         try {
-            const res = fetch(this.base_url + endpoint)
-                        .then((res) => res.json())
-                        .then((json) => json)
-                        .catch((err => { throw(err) }));
-
-            return res;
+            const res = await fetch(this.base_url + endpoint);
+            const data = await res.json();
+            return data.data;
         } catch(err) {
             throw(err);
         }

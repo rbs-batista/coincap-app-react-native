@@ -1,8 +1,9 @@
-import { MoneyFormat } from "../helpers";
+import { Money, Util } from "../helpers";
 
 export class AssetModel {
     id: string;
     rank: string;
+    symbol: string;
     avatar: string;
     name: string;
     price: number;
@@ -27,15 +28,16 @@ export class AssetModel {
         vwap24Hr: string, 
     }) {
         this.id = id, 
-        this.rank = rank, 
-        this.avatar = symbol, 
+        this.rank = rank,
+        this.symbol = symbol,  
+        this.avatar = Util.getFirstQuantityCharacters({name: symbol, quantity: 1}), 
         this.name = name, 
-        this.price = MoneyFormat.format({value: priceUsd}),
-        this.percent = MoneyFormat.format({value: priceUsd}),
-        this.supply = MoneyFormat.format({value: priceUsd}), 
-        this.maxSupply = MoneyFormat.format({value: priceUsd}),
-        this.marketCap = MoneyFormat.format({value: priceUsd}),
-        this.volume = MoneyFormat.format({value: priceUsd}),
-        this.averagePrice = MoneyFormat.format({value: priceUsd}) 
+        this.price = Money.format({value: priceUsd}),
+        this.percent = Money.format({value: changePercent24Hr}),
+        this.supply = Money.format({value: supply}), 
+        this.maxSupply = Money.format({value: maxSupply}),
+        this.marketCap = Money.format({value: marketCapUsd}),
+        this.volume = Money.format({value: volumeUsd24Hr}),
+        this.averagePrice = Money.format({value: vwap24Hr}) 
     }
 }
