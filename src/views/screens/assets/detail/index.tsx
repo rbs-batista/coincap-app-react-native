@@ -4,18 +4,22 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from "../../../../controllers/asset_controller";
 import { AssetModel } from "../../../../models";
+import { Dialog, Loading, Util } from "../../../../helpers";
 
-export const Detail = () => {
-
+export const Detail = ({ route, navigation }: {route: any, navigation: any}) => {
+    const { id } = route.params;
     const [asset, setAsset] = useState<AssetModel>();
     
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await AssetController.detail({id: 'bitcoin'});
+                Loading.start();
+                const res = await AssetController.detail({id: id});
                 setAsset(res);
+                Loading.finished();
             } catch (error) {
-                console.error('Erro ao buscar dados:', error);
+                Loading.finished();
+                Dialog.error({message: 'Erro ao buscar dados'});
             }
         };
     
@@ -27,7 +31,7 @@ export const Detail = () => {
             <View paddingX={2}>
                 <ListItem
                     key={asset?.id} 
-                    containerStyle={{ backgroundColor: '#131a20', marginBottom: 10 }}
+                    containerStyle={{ backgroundColor: Util.cryptoBackgroundColor({symbol: asset?.symbol ?? ''}), marginBottom: 10 }}
                 >
                     <Avatar
                         title={asset?.avatar}
@@ -38,8 +42,8 @@ export const Detail = () => {
                         <ListItem.Subtitle style={{ color: '#eff1f3' }}>{asset?.marketCap}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                        <ListItem.Title style={{ color: '#fcffff' }}>{asset?.price}</ListItem.Title>
-                        <ListItem.Subtitle style={{ color: '#b96065' }}>{asset?.percent}</ListItem.Subtitle>
+                        <ListItem.Title style={{ color: '#fcffff' }}>{asset?.price} USD</ListItem.Title>
+                        <ListItem.Subtitle style={{ color: Util.isNegative({value: asset?.percent ?? 0}) }}>{asset?.percent} %</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
                 <View
@@ -138,7 +142,7 @@ export const Detail = () => {
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Valor nas últimas 24 horas</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#b96065'>{asset?.percent} %</Text>
+                        <Text color={Util.isNegative({value: asset?.percent ?? 0})}>{asset?.percent} %</Text>
                     </ListItem>
                 </View>
                 <View

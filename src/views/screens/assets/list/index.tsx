@@ -8,9 +8,8 @@ import { AssetModel, BalanceModel } from '../../../../models';
 import { Util, Loading, Dialog } from '../../../../helpers';
 import styles from "./styles";
 import BaasController from '../../../../controllers/baas_controller';
-import Toast from 'react-native-tiny-toast';
 
-export const List = () => {
+export const List = ({ navigation }: {navigation: any}) => {
   const [balance, setBalance] = useState<BalanceModel | null>();
   const [assets, setAssets] = useState<AssetModel[]>([]);
   const [filteredAssets, setFilteredAssets] = useState<AssetModel[]>([]);
@@ -43,7 +42,9 @@ export const List = () => {
 
   }, [searchQuery, assets]);
 
-  const handleNavigate = ({id} : {id: string}) => {};
+  const handleNavigate = async ({id} : {id: string}) => {
+    await navigation.navigate('Details', {id: id});
+  };
 
   const clearInput = () => setSearchQuery('');
   const handleSearch = (query: string) => {

@@ -5,6 +5,7 @@ import { Order } from '../views/screens/order';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
  
 export type RootTabParamList = {
@@ -14,6 +15,7 @@ export type RootTabParamList = {
     Order: undefined;
 }
  
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator<RootTabParamList>();
  
 const Theme = {
@@ -34,7 +36,11 @@ const Theme = {
 export const Routes = () => {
     return(
         <NavigationContainer theme={Theme}>
-            <Tab.Navigator>
+            <Stack.Navigator initialRouteName="Home">
+                <Stack.Screen name="Home" component={List} />
+                <Stack.Screen name="Details" component={Detail} />
+            </Stack.Navigator>
+            {/* <Tab.Navigator>
                 <Tab.Screen
                     name="List"
                     component={List}
@@ -94,7 +100,7 @@ export const Routes = () => {
                         }
                     }
                 />
-            </Tab.Navigator>
+            </Tab.Navigator> */}
         </NavigationContainer>
     )
 }
