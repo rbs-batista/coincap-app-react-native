@@ -1,5 +1,4 @@
 import { Money, Util } from "../helpers";
-
 export class AssetModel {
     id: string;
     rank: string;
@@ -30,7 +29,7 @@ export class AssetModel {
         this.id = id, 
         this.rank = rank,
         this.symbol = symbol,  
-        this.avatar = Util.getFirstQuantityCharacters({name: symbol, quantity: 1}), 
+        this.avatar = Util.getFirstQuantityCharacters({name: symbol, quantity: 2}), 
         this.name = name, 
         this.price = Money.format({value: priceUsd}),
         this.percent = Money.format({value: changePercent24Hr}),

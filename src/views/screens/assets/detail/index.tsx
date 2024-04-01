@@ -24,29 +24,43 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
         };
     
         fetchData();
+
     }, []);
 
+    const handleNavigate = async ({id} : {id: string}) => {
+        console.log('press:' + id)
+        await navigation.navigate('Checkout', {id: id});
+      };
     return (
         <ScrollView>
             <View paddingX={2}>
                 <ListItem
                     key={asset?.id} 
-                    containerStyle={{ backgroundColor: Util.cryptoBackgroundColor({symbol: asset?.symbol ?? ''}), marginBottom: 10 }}
+                    containerStyle={{ 
+                        backgroundColor: '#1c2329', 
+                        marginBottom: 10 
+                    }}
                 >
                     <Avatar
                         title={asset?.avatar}
-                        overlayContainerStyle={{ backgroundColor: "#5F9EA0", color: 'dde4eb' }}
+                        overlayContainerStyle={{ 
+                            backgroundColor: Util.cryptoBackgroundColor({symbol: asset?.symbol ?? ''}),
+                            color: 'dde4eb' 
+                        }}
+                        rounded
                     />
                     <ListItem.Content>
                         <ListItem.Title style={{ color: '#dde4eb' }}>{asset?.name}</ListItem.Title>
-                        <ListItem.Subtitle style={{ color: '#eff1f3' }}>{asset?.marketCap}</ListItem.Subtitle>
+                        <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {asset?.supply}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                        <ListItem.Title style={{ color: '#fcffff' }}>{asset?.price} USD</ListItem.Title>
+        
+                <ListItem.Title style={{ color: '#fcffff' }}>{asset?.price} USD</ListItem.Title>
                         <ListItem.Subtitle style={{ color: Util.isNegative({value: asset?.percent ?? 0}) }}>{asset?.percent} %</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
-                <View
+
+                {/* <View
                     style={{
                         backgroundColor: '#1c2329',
                         borderRadius: 8,
@@ -82,7 +96,7 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                         </Text>
                         <MaterialIcons name="arrow-forward" size={20} color="#72b1e5" style={{ marginLeft: 10 }} />
                     </View>
-                </View>
+                </View> */}
 
                 <View
                     style={{
@@ -90,15 +104,6 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                         paddingHorizontal: 5,
                         paddingVertical: 10
                     }}>
-                    <ListItem
-                        containerStyle={{ backgroundColor: '#1c2329' }}
-                        bottomDivider={true}
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Oferta</ListItem.Title>
-                        </ListItem.Content>
-                        <Text color='#dde4eb'>{asset?.supply}</Text>
-                    </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
                         bottomDivider={true}
@@ -115,34 +120,15 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Oferta x Preço</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>{asset?.marketCap}</Text>
+                        <Text color='#dde4eb'>{asset?.marketCap} USD</Text>
                     </ListItem>
                     <ListItem
                         containerStyle={{ backgroundColor: '#1c2329' }}
-                        bottomDivider={true}
                     >
                         <ListItem.Content>
                             <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Volume de negociação</ListItem.Title>
                         </ListItem.Content>
-                        <Text color='#dde4eb'>{asset?.volume}</Text>
-                    </ListItem>
-                    <ListItem
-                        containerStyle={{ backgroundColor: '#1c2329' }}
-                        bottomDivider={true}
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Preço médio</ListItem.Title>
-                        </ListItem.Content>
-                        <Text color='#dde4eb'>{asset?.price}</Text>
-                    </ListItem>
-                    <ListItem
-                        containerStyle={{ backgroundColor: '#1c2329' }}
-
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={{ fontWeight: 'bold', color: '#dde4eb' }}>Valor nas últimas 24 horas</ListItem.Title>
-                        </ListItem.Content>
-                        <Text color={Util.isNegative({value: asset?.percent ?? 0})}>{asset?.percent} %</Text>
+                        <Text color='#dde4eb'>{asset?.volume} USD</Text>
                     </ListItem>
                 </View>
                 <View
@@ -154,8 +140,8 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                         width: '100%'
                     }}
                 >
-
                     <Button
+                        onPress={() => handleNavigate({id: asset?.id ?? ''})}
                         style={{
                             backgroundColor: '#63b7ff',
                             flex: 1
@@ -171,10 +157,12 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                     </Button>
                     <View paddingX={5}></View>
                     <Button
+                        onPress={() => handleNavigate({id: asset?.id ?? ''})}
                         style={{
                             backgroundColor: '#e70632',
                             flex: 1
-                        }}>
+                        }}
+                    >
                         <Text
                             style={{
                                 fontWeight: 'bold',

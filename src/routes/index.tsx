@@ -1,5 +1,5 @@
 import React from "react"
-import { List, Detail } from '../views/screens/assets';
+import { List, Detail, Checkout } from '../views/screens/assets';
 import { MyAssets } from '../views/screens/store';
 import { Order } from '../views/screens/order';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
@@ -37,8 +37,30 @@ export const Routes = () => {
     return(
         <NavigationContainer theme={Theme}>
             <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen name="Home" component={List} />
-                <Stack.Screen name="Details" component={Detail} />
+                <Stack.Screen 
+                    name="Home" 
+                    component={List}
+                    options={{
+                        headerTitle: 'Saldo',
+                        headerTitleAlign: 'center',
+                    }}
+                />
+                <Stack.Screen 
+                    name="Details" 
+                    component={Detail}
+                    options={{
+                        headerTitle: 'Detalhes',
+                        headerTitleAlign: 'center',
+                    }}
+                />
+                <Stack.Screen 
+                    name="Checkout" 
+                    component={Checkout}
+                    options={{
+                        headerTitle: 'Checkout',
+                        headerTitleAlign: 'center',
+                    }}
+                />
             </Stack.Navigator>
             {/* <Tab.Navigator>
                 <Tab.Screen

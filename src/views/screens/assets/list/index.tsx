@@ -1,6 +1,6 @@
 import { FlatList, ScrollView, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { TextInput, TouchableOpacity } from 'react-native';
+import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from '../../../../controllers/asset_controller';
@@ -46,7 +46,13 @@ export const List = ({ navigation }: {navigation: any}) => {
     await navigation.navigate('Details', {id: id});
   };
 
-  const clearInput = () => setSearchQuery('');
+  const clearInput = () => {
+    Keyboard.dismiss();
+    setSearchQuery('');
+  }
+
+  const handleBlur = () => Keyboard.dismiss();
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
@@ -61,6 +67,7 @@ export const List = ({ navigation }: {navigation: any}) => {
           style={styles.searchInput}
           value={searchQuery}
           onChangeText={handleSearch}
+          onBlur={handleBlur}
           placeholder="Buscar..."
           placeholderTextColor="#dde4eb"
         />
@@ -80,19 +87,27 @@ export const List = ({ navigation }: {navigation: any}) => {
                 containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
               >
                 <Avatar
+                    title={item.avatar}
+                    overlayContainerStyle={{ 
+                        backgroundColor: Util.cryptoBackgroundColor({symbol: item.symbol}),
+                        color: 'dde4eb' 
+                    }}
+                    rounded
+                />
+                {/* <Avatar
                   title={item.avatar}
                   titleStyle={{ 
-                    fontSize: 20, 
                     backgroundColor: Util.cryptoBackgroundColor({symbol: item.symbol}),
-                    borderRadius: 100,
-                    paddingHorizontal: 5
+                    // fontSize: 20, 
+                    // borderRadius: 100,
+                    // paddingHorizontal: 5
                   }}
                   overlayContainerStyle={{ color: 'dde4eb'}}
-                  rounded
-                />
+                  // rounded
+                /> */}
                 <ListItem.Content>
                   <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>{item.supply} USD</ListItem.Subtitle>
+                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.supply}</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
                   <ListItem.Title style={{ color: '#fcffff' }}>{item.price} USD</ListItem.Title>

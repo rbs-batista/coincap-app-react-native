@@ -1,5 +1,3 @@
-
-
 export const Money = {
 
     format({value}: {value: string | number}): number{

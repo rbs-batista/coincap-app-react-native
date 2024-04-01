@@ -42,7 +42,7 @@ export default class AssetRepository {
         const asset = new AssetModel({
             id: res.id, 
             rank: res.rank,
-            symbol: res.supply,
+            symbol: res.symbol,
             name: res.name,
             supply: res.supply,
             maxSupply: res.maxSupply,

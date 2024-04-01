@@ -8,8 +8,7 @@ export const Loading = {
     },
 
     finished() {
-        console.log("Toast:" + this.toastRef)
-            Toast.hide(this.toastRef);
-            this.toastRef = null;
+        Toast.hide(this.toastRef);
+        this.toastRef = null;
     },
 };
