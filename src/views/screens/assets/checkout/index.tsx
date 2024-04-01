@@ -43,73 +43,34 @@ export const Checkout = ({ route, navigation }: {route: any, navigation: any}) =
   return (
     <KeyboardAwareScrollView>
    
-    <VStack>
+    <VStack flex={1} p={3}>
+        <Text color={'#fff'} marginLeft={'3'} marginBottom={'1'}>Nome:</Text>
       <Center>
         {/* <Heading my={10}>
           Cadastro de Usuário
         </Heading> */}
-        <View>
-          <Controller
-            control={control}
-            name="name"
-            render={({field: {onChange}})=>(
-              <TextInput
-                style={styles.input}
-                onChangeText={onChange}
-                placeholderTextColor="#dde4eb"
-              />
-            )}
-          />
+            <Controller
+              control={control}
+              name="amount"
+              render={({ field: { onChange } }) => (
+                <Input
+                  // placeholder="Valor"
+                  onChangeText={onChange}
+                  errorMessage={errors.name?.message}
+                />
+              )}
+            />
           <Controller
             control={control}
             name="amount"
             render={({field: {onChange}})=>(
-              <TextInput
-                style={styles.input}
-                // value={searchQuery}
+              <Input
+                placeholder="Valor"
                 onChangeText={onChange}
-                placeholderTextColor="#dde4eb"
+                errorMessage={errors.name?.message}
               />
             )}
           />
-        </View>
-          {/* <Controller
-          control={control}
-          name="email"
-          render={({field: {onChange}})=>(
-            <Input
-              placeholder="Informe o email"
-              onChangeText={onChange}
-              errorMessage={errors.email?.message}
-            >
-            </Input>
-          )}/> */}
-          {/* <Controller
-          control={control}
-          name="senha"
-          render={({field: {onChange}})=>(
-            <Input
-              placeholder="Informe a senha"
-              onChangeText={onChange}
-              secureTextEntry
-              errorMessage={errors.senha?.message}
-            >
-            </Input>
-          )}/> */}
-          {/* <Controller
-          control={control}
-          name="confirmaSenha"
-          render={({field: {onChange}})=>(
-            <Input
-              placeholder="Confirme sua senha"
-              onChangeText={onChange}
-              secureTextEntry
-              errorMessage={errors.confirmaSenha?.message}
-            >
-            </Input>
-          )}/> */}
- 
-          {/* <Button title='Cadastrar' onPress={handleSubmit(handlerRegister)}></Button> */}
           <Button
               onPress={handleSubmit(handlerRegister)}
               style={{ backgroundColor: '#63b7ff',}}
@@ -121,7 +82,6 @@ export const Checkout = ({ route, navigation }: {route: any, navigation: any}) =
       </Center>
     </VStack>
     </KeyboardAwareScrollView>
-   
   );
 }
  
