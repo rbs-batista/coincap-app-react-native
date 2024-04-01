@@ -1,21 +1,18 @@
 import { Button as ButtonNativeBase, IButtonProps, Text } from "native-base";
 import React from "react";
 
-type Props = IButtonProps &  {
+type Props = IButtonProps & {
     title: string;
 }
-export function Button({title, ...res}: Props){
-    return(
+export function Button({ title, ...res }: Props) {
+    return (
         <ButtonNativeBase
-            w="full"
-            h={20}
-            bg={"green.700"}
-            _pressed={{
-                bgColor:"green.900"
-            }}
+            style={{ backgroundColor: '#63b7ff', }}
             {...res}
         >
-        <Text color= "white" fontSize={26}>{title}</Text>
+            <Text style={{ fontWeight: 'bold', color: '#fbfdf1' }}>
+                {title}
+            </Text>
 
         </ButtonNativeBase>
     )
