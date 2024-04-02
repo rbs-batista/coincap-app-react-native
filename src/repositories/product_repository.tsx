@@ -36,9 +36,11 @@ export default class ProductRepository {
         return productModel;
     }
 
-    static async findById({id}: {id: string}): Promise<ProductModel> {
+    static async findById({id}: {id: string}): Promise<ProductModel | null> {
         const product = await this.adapter.findById({id: id});
 
+        if(product === null) return null;
+        console.log('findById Product repository ' + id)
         const productModel = new ProductModel({
             id: product.id,
             assetId: product.assetId,
@@ -48,7 +50,7 @@ export default class ProductRepository {
         return productModel;
     }
 
-    static async create({assetId, amount}:{assetId: string, amount: number}): Promise<ProductModel> {
+    static async create({assetId, amount}:{assetId: string, amount: number}): Promise<ProductModel | null> {
 
         const productEntity = new ProductEntity({
             assetId: assetId,

@@ -8,6 +8,7 @@ import { AssetModel, BalanceModel } from '../../../../models';
 import { Util, Loading, Dialog } from '../../../../helpers';
 import styles from "./styles";
 import BaasController from '../../../../controllers/baas_controller';
+import uuid from 'uuid-random';
 
 export const List = ({ navigation }: {navigation: any}) => {
   const [balance, setBalance] = useState<BalanceModel | null>();
@@ -15,7 +16,9 @@ export const List = ({ navigation }: {navigation: any}) => {
   const [filteredAssets, setFilteredAssets] = useState<AssetModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
+
   useEffect(() => {
+      console.log(uuid())
       const fetchData = async () => {
         try {
           Loading.start();
@@ -94,17 +97,6 @@ export const List = ({ navigation }: {navigation: any}) => {
                     }}
                     rounded
                 />
-                {/* <Avatar
-                  title={item.avatar}
-                  titleStyle={{ 
-                    backgroundColor: Util.cryptoBackgroundColor({symbol: item.symbol}),
-                    // fontSize: 20, 
-                    // borderRadius: 100,
-                    // paddingHorizontal: 5
-                  }}
-                  overlayContainerStyle={{ color: 'dde4eb'}}
-                  // rounded
-                /> */}
                 <ListItem.Content>
                   <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
                   <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.supply}</ListItem.Subtitle>

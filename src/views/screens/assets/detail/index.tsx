@@ -5,6 +5,7 @@ import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from "../../../../controllers/asset_controller";
 import { AssetModel } from "../../../../models";
 import { Dialog, Loading, Util } from "../../../../helpers";
+import { OrderTypeEnum } from "../../../../enums";
 
 export const Detail = ({ route, navigation }: {route: any, navigation: any}) => {
     const { id } = route.params;
@@ -27,9 +28,8 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
 
     }, []);
 
-    const handleNavigate = async ({id} : {id: string}) => {
-        console.log('press:' + id)
-        await navigation.navigate('Checkout', {id: id});
+    const handleNavigate = async ({id, type} : {id: string, type: OrderTypeEnum}) => {
+        await navigation.navigate('Checkout', {id: id, type: type});
       };
     return (
         <ScrollView>
@@ -141,7 +141,7 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                     }}
                 >
                     <Button
-                        onPress={() => handleNavigate({id: asset?.id ?? ''})}
+                        onPress={() => handleNavigate({id: asset?.id ?? '', type: OrderTypeEnum.BUY})}
                         style={{
                             backgroundColor: '#63b7ff',
                             flex: 1
@@ -157,7 +157,7 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                     </Button>
                     <View paddingX={5}></View>
                     <Button
-                        onPress={() => handleNavigate({id: asset?.id ?? ''})}
+                        onPress={() => handleNavigate({id: asset?.id ?? '', type: OrderTypeEnum.SALE})}
                         style={{
                             backgroundColor: '#e70632',
                             flex: 1

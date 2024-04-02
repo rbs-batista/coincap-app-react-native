@@ -8,7 +8,7 @@ export default class StoreService {
         return products;
     }
     
-    static async findById({id}:{id: string}): Promise<ProductModel> {
+    static async findById({id}:{id: string}): Promise<ProductModel | null> {
         const product = await ProductRepository.findById({id: id});
         return product;
     }
@@ -18,24 +18,27 @@ export default class StoreService {
         return product;
     }
     
-    static async buy({assetId, amount}:{assetId: string, amount: number}): Promise<ProductModel>{
-
-        var product: ProductModel = await ProductRepository.findById({id: assetId});
+    static async buy({assetId, amount}:{assetId: string, amount: number}): Promise<ProductModel | null>{
+        
+        var product = await ProductRepository.findById({id: assetId});
+        console.log('product buy:' + product);
         const balance = await BaasService.getBalance();
 
-        if(balance.amount < amount) {
+        if(balance != null && balance.amount < amount) {
             throw new Error(`Saldo de ${balance.amount} é insuficiente para compra de ${amount}`);
         }
         
         if(product == null) {
+            console.log('product create:' + product);
             product = await ProductRepository.create({assetId: assetId, amount: amount});
         } else {
+            console.log('product update:' + product);
             product.amount += amount;
             await ProductRepository.update({id: assetId, data: product});
         }
 
         await BaasService.debit({amount: amount});
-
+        console.log('product debit:' + amount);
         return product;
     }
 
@@ -43,6 +46,7 @@ export default class StoreService {
 
         var product = await ProductRepository.findById({id: assetId});
 
+        if(product === null) return;
         product.amount -= amount; 
 
         if(product.amount < 0) {

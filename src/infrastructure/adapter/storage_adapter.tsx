@@ -12,11 +12,15 @@ export default class StorageAdapter {
     async findById({id}:{id: string}): Promise<any> {
         const res = await this.all();
 
+        if(res === null) return null;
+        console.log('Adapter findById:' + JSON.stringify(res));
+        
         return res.find((item: { id: string }) => item.id === id);
     }
 
     async create({data}: {data: any}): Promise<void> {
         const isKey = await this.isKey();
+        console.log('Adapter create:' + JSON.stringify(data));
         if(isKey) {
             return await AsyncStorageDriver.update(this.key, data);
         }
@@ -26,7 +30,7 @@ export default class StorageAdapter {
 
     async update ({id, data}: {id: string, data: any}): Promise<void> {
         const res = await this.all();
-
+        console.log('Adapter create:' + JSON.stringify(res));
         const currentData = res.filter((item: { id: string }) => item.id != id);
 
         currentData.add(data);

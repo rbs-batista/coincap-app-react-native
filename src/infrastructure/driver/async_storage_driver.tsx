@@ -6,7 +6,7 @@ export default class AsyncStorageDriver {
         try {
 
             return await AsyncStorage.getAllKeys();
-             
+            
         } catch(err) {
             throw(err);
         }
@@ -16,6 +16,7 @@ export default class AsyncStorageDriver {
         try {
 
             const data = await AsyncStorage.getItem(key);
+            console.log(`driver - fetch ${data}`);
             return data != null ? JSON.parse(data) : null;
         } catch(err) {
             throw(err);
@@ -24,7 +25,8 @@ export default class AsyncStorageDriver {
 
     static async save(key: string, data: any): Promise<void> {
         try {
-            await AsyncStorage.setItem(key, JSON.stringify(data));
+            console.log(`driver - save ${JSON.stringify(data)}`);
+            await AsyncStorage.setItem(key, JSON.stringify([data]));
         } catch(err) {
             throw(err);
         }
@@ -32,6 +34,7 @@ export default class AsyncStorageDriver {
 
     static async update(key: string, data: any): Promise<void> {
         try {
+            console.log(`driver - update ${JSON.stringify(data)}`);
             await AsyncStorage.mergeItem(key, JSON.stringify(data));
         } catch(err) {
             throw(err);

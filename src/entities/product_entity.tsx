@@ -1,4 +1,4 @@
-import Uuid from 'react-native-uuid';
+import uuid from 'uuid-random';
 export class ProductEntity{
     id: string;
     assetId: string;
@@ -8,7 +8,7 @@ export class ProductEntity{
         {assetId, amount}: 
         {assetId: string, amount: number}
     ) {
-        this.id = Uuid.v4.toString(),
+        this.id = uuid()
         this.assetId = assetId,
         this.amount = amount
     }

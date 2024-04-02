@@ -3,32 +3,56 @@ import { Heading, Text, VStack } from 'native-base';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import uuid from "react-native-uuid";
 import * as yup from "yup";
 import { Button, Input } from '../../../components';
+import { TextInputMask } from 'react-native-masked-text';
+import { Dialog, Loading } from "../../../../helpers";
+import ShoppingCartController from "../../../../controllers/shopping_cart_controller";
+import { OrderTypeEnum } from "../../../../enums";
 
 type FormDataProps = {
-  id: any;
-  name: string;
+  // id: any;
+  // name: string;
   amount: number;
 }
 
 const schemaRegister = yup.object({
-  name: yup.string().required('Nome obrigatório'),
+  // name: yup.string().required('Nome obrigatório'),
   amount: yup.string().required('Valor é obrigatório'),
 
 })
 
 export const Checkout = ({ route, navigation }: { route: any, navigation: any }) => {
+  const { id, type } = route.params;
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(schemaRegister) as any
   }
   );
 
   function handlerRegister(data: FormDataProps) {
+    try{
+      Loading.start();
 
-    data.id = uuid.v4;
-    console.log(data);
+      var message = '';
+      if(type === OrderTypeEnum.BUY) {
+        console.log(`buy ${type} ${OrderTypeEnum.BUY}`);
+        ShoppingCartController.buy({id: id, amount: data.amount});
+        message = 'Compra efatuada com sucesso!';
+      }
+
+      if(type === OrderTypeEnum.SALE) {
+        console.log(`sale ${type} ${OrderTypeEnum.SALE}`);
+        ShoppingCartController.buy({id: id, amount: data.amount});
+        message = 'Venda efetuada com sucesso!';
+      }
+  
+      Loading.finished();
+      Dialog.success({message: message});
+    } catch {
+      Loading.finished();
+      Dialog.error({message: 'Erro na operação'});
+    }
+
   }
 
   return (
@@ -38,17 +62,17 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
         <Heading my={10}>
           Compra de ativos
         </Heading>
-        <Text color={'#dde4eb'} marginLeft={'3'} marginBottom={'1'}>Nome</Text>
+        {/* <Text color={'#dde4eb'} marginLeft={'3'} marginBottom={'1'}>Nome</Text>
         <Controller
           control={control}
-          name="amount"
+          name="name"
           render={({ field: { onChange } }) => (
             <Input
               onChangeText={onChange}
               errorMessage={errors.name?.message}
             />
           )}
-        />
+        /> */}
         <Text color={'#dde4eb'} marginLeft={'3'} marginBottom={'1'}>Valor</Text>
         <Controller
           control={control}
@@ -57,7 +81,7 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
             <Input
               placeholder="R$ 0.00"
               onChangeText={onChange}
-              errorMessage={errors.name?.message}
+              errorMessage={errors.amount?.message}
             />
           )}
         />

@@ -11,8 +11,8 @@ export default class PurchaseOrderService {
 
         const product = await StoreService.buy({assetId: assetId, amount: amount});
 
-        await OrderService.create({asset: asset, product: product, 
-                                    type: OrderTypeEnum.BUY, amount: amount});
+        // await OrderService.create({asset: asset, product: product, 
+        //                             type: OrderTypeEnum.BUY, amount: amount});
 
     }
 
@@ -22,6 +22,8 @@ export default class PurchaseOrderService {
 
         const product = await StoreService.findById({id: id});
 
+        if(product == null) return;
+        
         await StoreService.sale({assetId: id, amount: amount});
 
         await OrderService.create({asset: asset, product: product, 
