@@ -1,22 +1,21 @@
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Button, ScrollView, Text, View } from "native-base";
 import React, { useEffect, useState } from 'react';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from "../../../../controllers/asset_controller";
-import { AssetModel } from "../../../../models";
-import { Dialog, Loading, Util } from "../../../../helpers";
 import { OrderTypeEnum } from "../../../../enums";
+import { Dialog, Loading, Util } from "../../../../helpers";
+import { AssetModel } from "../../../../models";
 
-export const Detail = ({ route, navigation }: {route: any, navigation: any}) => {
+export const Detail = ({ route, navigation }: { route: any, navigation: any }) => {
     const { id } = route.params;
     const [asset, setAsset] = useState<AssetModel>();
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 Loading.start();
                 console.log(`1[Detail][req][fetchData]id: ${id}`);
-                const res = await AssetController.detail({id: id});
+                const res = await AssetController.detail({ id: id });
                 console.log(`1[Detail][req][fetchData]res: ${JSON.stringify(res)}`);
 
                 console.log(`-------------------------------`);
@@ -24,32 +23,32 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                 Loading.finished();
             } catch (error) {
                 Loading.finished();
-                Dialog.error({message: 'Erro ao buscar dados'});
+                Dialog.error({ message: 'Erro ao buscar dados' });
             }
         };
-    
+
         fetchData();
 
     }, []);
 
-    const handleNavigate = async ({id, type} : {id: string, type: OrderTypeEnum}) => {
-        await navigation.navigate('Checkout', {id: id, type: type});
-      };
+    const handleNavigate = async ({ id, type }: { id: string, type: OrderTypeEnum }) => {
+        await navigation.navigate('Checkout', { id: id, type: type });
+    };
     return (
         <ScrollView>
             <View paddingX={2}>
                 <ListItem
-                    key={asset?.id} 
-                    containerStyle={{ 
-                        backgroundColor: '#1c2329', 
-                        marginBottom: 10 
+                    key={asset?.id}
+                    containerStyle={{
+                        backgroundColor: '#1c2329',
+                        marginBottom: 10
                     }}
                 >
                     <Avatar
                         title={asset?.avatar}
-                        overlayContainerStyle={{ 
-                            backgroundColor: Util.cryptoBackgroundColor({symbol: asset?.symbol ?? ''}),
-                            color: 'dde4eb' 
+                        overlayContainerStyle={{
+                            backgroundColor: Util.cryptoBackgroundColor({ symbol: asset?.symbol ?? '' }),
+                            color: 'dde4eb'
                         }}
                         rounded
                     />
@@ -58,9 +57,9 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                         <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {asset?.supply}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Content style={{ alignItems: 'flex-end' }}>
-        
-                <ListItem.Title style={{ color: '#fcffff' }}>{asset?.price} USD</ListItem.Title>
-                        <ListItem.Subtitle style={{ color: Util.isNegative({value: asset?.percent ?? 0}) }}>{asset?.percent} %</ListItem.Subtitle>
+
+                        <ListItem.Title style={{ color: '#fcffff' }}>{asset?.price} USD</ListItem.Title>
+                        <ListItem.Subtitle style={{ color: Util.isNegative({ value: asset?.percent ?? 0 }) }}>{asset?.percent} %</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
 
@@ -145,7 +144,7 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                     }}
                 >
                     <Button
-                        onPress={() => handleNavigate({id: asset?.id ?? '', type: OrderTypeEnum.BUY})}
+                        onPress={() => handleNavigate({ id: asset?.id ?? '', type: OrderTypeEnum.BUY })}
                         style={{
                             backgroundColor: '#63b7ff',
                             flex: 1
@@ -159,7 +158,7 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                             COMPRAR
                         </Text>
                     </Button>
-                    <View paddingX={5}></View>
+                    {/* <View paddingX={5}></View>
                     <Button
                         onPress={() => handleNavigate({id: asset?.id ?? '', type: OrderTypeEnum.SALE})}
                         style={{
@@ -174,7 +173,7 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
                             }}>
                             VENDER
                         </Text>
-                    </Button>
+                    </Button> */}
                 </View>
             </View>
         </ScrollView>
