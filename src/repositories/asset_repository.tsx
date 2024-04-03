@@ -3,8 +3,9 @@ import ApiAdapter from "../infrastructure/adapter/api_adapter";
 export default class AssetRepository {
 
     static async all(): Promise<[AssetModel]> {
-            
+        console.log(`3[List][req][AssetRepository]all`);    
         const res = await ApiAdapter.getAllAsset();
+        console.log(`3[List][res][AssetRepository]all`);
         const assets = res.map((asset: { 
             id: string, 
             rank: string, 
@@ -32,13 +33,14 @@ export default class AssetRepository {
                 vwap24Hr: asset.vwap24Hr
             })
         })    
-
+        console.log(`3[List][res][AssetRepository]all: ${JSON.stringify(assets)}`);
         return assets;
     }
 
     static async findById({id}: {id: string}): Promise<AssetModel> {
-
+        console.log(`3[AssetRepository][req][findById]id:${id}`);
         const res = await ApiAdapter.getByAssetId({id: id});
+        console.log(`3[AssetRepository][res][findById]res:${JSON.stringify(res)}`);
         const asset = new AssetModel({
             id: res.id, 
             rank: res.rank,
@@ -52,7 +54,7 @@ export default class AssetRepository {
             changePercent24Hr: res.changePercent24Hr,
             vwap24Hr: res.vwap24Hr
         });
-
+        console.log(`3[AssetRepository][res][findById]asset:${JSON.stringify(asset)}`);
         return asset;
     }
 

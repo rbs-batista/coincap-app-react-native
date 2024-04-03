@@ -3,7 +3,10 @@ import BaasService from "../services/baas_service";
 export default class BaasController {
     static async balance () {
         try {
-            return await BaasService.getBalance();
+            console.log(`2[BaasController][req][balance]getBalance`);
+            const balance = await BaasService.getBalance();
+            console.log(`2[BaasController][res][balance]getBalance: ${JSON.stringify(balance)}`);
+            return balance;
         } catch(err) {
             throw(err);
         }

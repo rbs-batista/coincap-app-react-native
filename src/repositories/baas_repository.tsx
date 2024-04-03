@@ -5,13 +5,15 @@ export default class BaasRepository {
     private static key: string = '@baas_key';
     private static adapter = new StorageAdapter(this.key);
 
-    static async getBalance(): Promise<BalanceModel | null>  {
+    static async getBalance(): Promise<BalanceModel> {
+        console.log(`4[BaasRepository][req][getBalance]all`);
         const res = await this.adapter.all();
+        console.log(`4[BaasRepository][res][getBalance]all: ${JSON.stringify(res)}`);
 
-        if(res == null) return null;
-        
-        const balance = new BalanceModel({amount: res.amount});
-
+        const amount = res == null ? 1000.10 : res.amount;
+       
+        const balance = new BalanceModel({amount: amount});
+        console.log(`4[BaasRepository][res][getBalance]all: ${JSON.stringify(balance)}`);
         return balance;
     }
 

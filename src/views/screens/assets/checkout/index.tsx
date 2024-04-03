@@ -29,28 +29,31 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
   }
   );
 
-  function handlerRegister(data: FormDataProps) {
+  async function handlerRegister(data: FormDataProps) {
     try{
       Loading.start();
 
       var message = '';
       if(type === OrderTypeEnum.BUY) {
-        console.log(`buy ${type} ${OrderTypeEnum.BUY}`);
-        ShoppingCartController.buy({id: id, amount: data.amount});
+        console.log(`1[Checkout][req][buy]type: ${type}`);
+        await ShoppingCartController.buy({id: id, amount: data.amount});
+        console.log(`1[Checkout][res][buy]id: ${id}, amount: ${data.amount}`);
         message = 'Compra efatuada com sucesso!';
       }
 
       if(type === OrderTypeEnum.SALE) {
-        console.log(`sale ${type} ${OrderTypeEnum.SALE}`);
-        ShoppingCartController.buy({id: id, amount: data.amount});
+        console.log(`1[Checkout][req][buy]type: ${type}`);
+        await ShoppingCartController.sale({id: id, amount: data.amount});
+        console.log(`1[Checkout][res][buy]id: ${id}, amount: ${data.amount}`);
         message = 'Venda efetuada com sucesso!';
       }
   
+      console.log(`-------------------------------`);
       Loading.finished();
       Dialog.success({message: message});
     } catch {
       Loading.finished();
-      Dialog.error({message: 'Erro na operação'});
+      Dialog.error({message: 'Erro ao fazer o pagamento'});
     }
 
   }

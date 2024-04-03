@@ -8,6 +8,8 @@ export default class ProductRepository {
 
     static async all(): Promise<[ProductModel]> {
         const res = await this.adapter.all();
+
+    
         const products = res.map((product: {
             id: string,
             assetId: string;
@@ -23,10 +25,14 @@ export default class ProductRepository {
         return products;
     }
 
-    static async finByAssetId({id}:{id: string}): Promise<ProductModel> {
+    static async findByAssetId({id}:{id: string}): Promise<ProductModel | null> {
+        console.log(`5[ProductRepository][req][finByAssetId]id: ${id}`);
         const products = await this.adapter.all();
+        if(products == null) return null;
+        console.log(`5[ProductRepository][req][finByAssetId]id: ${JSON.stringify(products)}`);
         const product = products.find((item: { assetId: string }) => item.assetId === id);
-
+        if(product == null) return null;
+        console.log(`5[ProductRepository][req][finByAssetId]product: ${JSON.stringify(product)}`);
         const productModel = new ProductModel({
             id: product.id,
             assetId: product.assetId,
@@ -40,7 +46,7 @@ export default class ProductRepository {
         const product = await this.adapter.findById({id: id});
 
         if(product === null) return null;
-        console.log('findById Product repository ' + id)
+    
         const productModel = new ProductModel({
             id: product.id,
             assetId: product.assetId,

@@ -18,12 +18,14 @@ export const List = ({ navigation }: {navigation: any}) => {
 
 
   useEffect(() => {
-      console.log(uuid())
       const fetchData = async () => {
         try {
           Loading.start();
+          console.log(`1[List][req][useEffect]balance`);
           const balance = await BaasController.balance();
+          console.log(`1[List][res][useEffect]balance: ${JSON.stringify(balance)}`);
           const res = await AssetController.index();
+          console.log(`1[List][res][useEffect]balance: ${JSON.stringify(res)}`);
             setBalance(balance);
             setFilteredAssets(res?? []);
             setAssets(res ?? []);

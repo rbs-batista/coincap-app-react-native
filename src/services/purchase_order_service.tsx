@@ -6,11 +6,11 @@ import { OrderTypeEnum } from "../enums";
 export default class PurchaseOrderService {
 
     static async store({assetId, amount} : {assetId: string, amount: number}): Promise<void>{
-
+        
         const asset = await AssetService.findById({id: assetId});
-
+        console.log(`3[PurchaseOrderService][req][store]assetId:${assetId}, amount: ${amount}`);
         const product = await StoreService.buy({assetId: assetId, amount: amount});
-
+        console.log(`3[PurchaseOrderService][req][store]product: ${JSON.stringify(product)}`);
         // await OrderService.create({asset: asset, product: product, 
         //                             type: OrderTypeEnum.BUY, amount: amount});
 

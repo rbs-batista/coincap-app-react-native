@@ -15,7 +15,11 @@ export const Detail = ({ route, navigation }: {route: any, navigation: any}) => 
         const fetchData = async () => {
             try {
                 Loading.start();
+                console.log(`1[Detail][req][fetchData]id: ${id}`);
                 const res = await AssetController.detail({id: id});
+                console.log(`1[Detail][req][fetchData]res: ${JSON.stringify(res)}`);
+
+                console.log(`-------------------------------`);
                 setAsset(res);
                 Loading.finished();
             } catch (error) {

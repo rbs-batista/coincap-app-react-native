@@ -6,21 +6,23 @@ export default class StorageAdapter {
     constructor(key: string) { this.key = key}
 
     async all(): Promise<any> {
-        return await AsyncStorageDriver.fetch(this.key);
+        console.log(`5[StorageAdapter][req][all]fetch: ${this.key}`);
+        const res = await AsyncStorageDriver.fetch(this.key);
+        console.log(`5[StorageAdapter][res][all]fetch: ${JSON.stringify(res)}`);
+        return res;
     }
 
     async findById({id}:{id: string}): Promise<any> {
         const res = await this.all();
 
         if(res === null) return null;
-        console.log('Adapter findById:' + JSON.stringify(res));
         
         return res.find((item: { id: string }) => item.id === id);
     }
 
     async create({data}: {data: any}): Promise<void> {
         const isKey = await this.isKey();
-        console.log('Adapter create:' + JSON.stringify(data));
+
         if(isKey) {
             return await AsyncStorageDriver.update(this.key, data);
         }
@@ -30,7 +32,7 @@ export default class StorageAdapter {
 
     async update ({id, data}: {id: string, data: any}): Promise<void> {
         const res = await this.all();
-        console.log('Adapter create:' + JSON.stringify(res));
+
         const currentData = res.filter((item: { id: string }) => item.id != id);
 
         currentData.add(data);

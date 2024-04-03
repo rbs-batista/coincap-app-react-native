@@ -6,7 +6,11 @@ export default class AssetService {
     }
 
     static async findById({id}:{id: string}) {
-        return AssetRepository.findById({id});
+        console.log(`4[AssetService][req][findById]id:${id}`);
+        const asset = AssetRepository.findById({id});
+        console.log(`4[AssetService][req][findById]id:${id}`);
+        
+        return asset;
     }
 
     static async findByIdAndInterval({id, interval}:{id: string, interval: string}) {
