@@ -18,9 +18,9 @@ export const Detail = ({ route, navigation }: { route: any, navigation: any }) =
                 const res = await AssetController.detail({ id: id });
                 console.log(`1[Detail][req][fetchData]res: ${JSON.stringify(res)}`);
 
-                console.log(`-------------------------------`);
                 setAsset(res);
                 Loading.finished();
+                console.log(`----------------Detail---------------`);
             } catch (error) {
                 Loading.finished();
                 Dialog.error({ message: 'Erro ao buscar dados' });

@@ -1,60 +1,60 @@
-import React from "react"
-import { List, Detail, Checkout } from '../views/screens/assets';
-import { MyAssets } from '../views/screens/store';
-import { Order } from '../views/screens/order';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
+import { Checkout } from "../views/screens/assets/checkout";
+import { Detail } from "../views/screens/assets/detail";
+import { Index } from "../views/screens/assets/index";
 
- 
+
 export type RootTabParamList = {
     List: undefined;
     Detail: undefined;
     MyAssets: undefined;
     Order: undefined;
 }
- 
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator<RootTabParamList>();
- 
+
 const Theme = {
     ...DefaultTheme,
-     dark: true,
-     colors: {
+    dark: true,
+    colors: {
         ...DefaultTheme.colors,
-         card:'#131a20',
-         primary: '#518ef1',
-         background: '#131a20',
-         text: '#dde4eb',
-         border: '#1c2329',
-         notification: '#dde4eb',
-     },
+        card: '#131a20',
+        primary: '#518ef1',
+        background: '#131a20',
+        text: '#dde4eb',
+        border: '#1c2329',
+        notification: '#dde4eb',
+    },
 }
- 
- 
+
+
 export const Routes = () => {
-    return(
+
+    return (
         <NavigationContainer theme={Theme}>
             <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen 
-                    name="Home" 
-                    component={List}
+                <Stack.Screen
+                    name="Home"
+                    component={Index}
                     options={{
                         headerTitle: 'Saldo',
                         headerTitleAlign: 'center',
                     }}
                 />
-                <Stack.Screen 
-                    name="Details" 
+                <Stack.Screen
+                    name="Details"
                     component={Detail}
                     options={{
                         headerTitle: 'Detalhes',
                         headerTitleAlign: 'center',
                     }}
                 />
-                <Stack.Screen 
-                    name="Checkout" 
+                <Stack.Screen
+                    name="Checkout"
                     component={Checkout}
                     options={{
                         headerTitle: 'Checkout',

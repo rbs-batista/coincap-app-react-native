@@ -1,16 +1,15 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FlatList, ScrollView, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from '../../../../controllers/asset_controller';
-import { AssetModel, BalanceModel } from '../../../../models';
-import { Util, Loading, Dialog } from '../../../../helpers';
-import styles from "./styles";
 import BaasController from '../../../../controllers/baas_controller';
-import uuid from 'uuid-random';
+import { Dialog, Loading, Util } from '../../../../helpers';
+import { AssetModel, BalanceModel } from '../../../../models';
+import styles from "./styles";
 
-export const List = ({ navigation }: {navigation: any}) => {
+export const Index = ({ navigation }: { navigation: any }) => {
   const [balance, setBalance] = useState<BalanceModel | null>();
   const [assets, setAssets] = useState<AssetModel[]>([]);
   const [filteredAssets, setFilteredAssets] = useState<AssetModel[]>([]);
@@ -18,25 +17,26 @@ export const List = ({ navigation }: {navigation: any}) => {
 
 
   useEffect(() => {
-      const fetchData = async () => {
-        try {
-          Loading.start();
-          console.log(`1[List][req][useEffect]balance`);
-          const balance = await BaasController.balance();
-          console.log(`1[List][res][useEffect]balance: ${JSON.stringify(balance)}`);
-          const res = await AssetController.index();
-          console.log(`1[List][res][useEffect]balance: ${JSON.stringify(res)}`);
-            setBalance(balance);
-            setFilteredAssets(res?? []);
-            setAssets(res ?? []);
-          Loading.finished();
-        } catch (err) {
-          Loading.finished();
-          Dialog.error({message: 'Erro ao buscar dados'});
-        }
-      };
+    const fetchData = async () => {
+      try {
+        Loading.start();
+        console.log(`1[List][req][useEffect]balance`);
+        const balance = await BaasController.balance();
+        console.log(`1[List][res][useEffect]balance: ${JSON.stringify(balance)}`);
+        const res = await AssetController.index();
+        console.log(`1[List][res][useEffect]index: ${JSON.stringify(res)}`);
+        setBalance(balance);
+        setFilteredAssets(res);
+        setAssets(res);
+        console.log(`---------INDEX----------`);
+        Loading.finished();
+      } catch (err) {
+        Loading.finished();
+        Dialog.error({ message: 'Erro ao buscar dados' });
+      }
+    };
 
-      fetchData();
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -47,8 +47,8 @@ export const List = ({ navigation }: {navigation: any}) => {
 
   }, [searchQuery, assets]);
 
-  const handleNavigate = async ({id} : {id: string}) => {
-    await navigation.navigate('Details', {id: id});
+  const handleNavigate = async ({ id }: { id: string }) => {
+    await navigation.navigate('Details', { id: id });
   };
 
   const clearInput = () => {
@@ -86,18 +86,18 @@ export const List = ({ navigation }: {navigation: any}) => {
         <FlatList
           data={filteredAssets}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleNavigate({id: item.id})}>
+            <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
               <ListItem
                 key={item.id}
                 containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
               >
                 <Avatar
-                    title={item.avatar}
-                    overlayContainerStyle={{ 
-                        backgroundColor: Util.cryptoBackgroundColor({symbol: item.symbol}),
-                        color: 'dde4eb' 
-                    }}
-                    rounded
+                  title={item.avatar}
+                  overlayContainerStyle={{
+                    backgroundColor: Util.cryptoBackgroundColor({ symbol: item.symbol }),
+                    color: 'dde4eb'
+                  }}
+                  rounded
                 />
                 <ListItem.Content>
                   <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
@@ -105,7 +105,7 @@ export const List = ({ navigation }: {navigation: any}) => {
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
                   <ListItem.Title style={{ color: '#fcffff' }}>{item.price} USD</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: Util.isNegative({value: item.percent}) }}>{item.percent} %</ListItem.Subtitle>
+                  <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.percent }) }}>{item.percent} %</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron style={{ color: '#3bdd8a' }} />
               </ListItem>

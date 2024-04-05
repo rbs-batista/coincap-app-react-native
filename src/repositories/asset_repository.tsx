@@ -1,26 +1,26 @@
-import {AssetModel, AssetHistoryModel} from "../models";
 import ApiAdapter from "../infrastructure/adapter/api_adapter";
+import { AssetHistoryModel, AssetModel } from "../models";
 export default class AssetRepository {
 
     static async all(): Promise<[AssetModel]> {
-        console.log(`3[List][req][AssetRepository]all`);    
+        console.log(`4[List][req][AssetRepository]all`);
         const res = await ApiAdapter.getAllAsset();
-        console.log(`3[List][res][AssetRepository]all`);
-        const assets = res.map((asset: { 
-            id: string, 
-            rank: string, 
-            symbol: string, 
-            name: string, 
-            supply: string, 
+        console.log(`4[List][res][AssetRepository]all`);
+        const assets = res.map((asset: {
+            id: string,
+            rank: string,
+            symbol: string,
+            name: string,
+            supply: string,
             maxSupply: string,
             marketCapUsd: string,
             volumeUsd24Hr: string,
             priceUsd: string,
             changePercent24Hr: string,
-            vwap24Hr: string, 
+            vwap24Hr: string,
         }) => {
             return new AssetModel({
-                id: asset.id, 
+                id: asset.id,
                 rank: asset.rank,
                 symbol: asset.symbol,
                 name: asset.name,
@@ -32,17 +32,17 @@ export default class AssetRepository {
                 changePercent24Hr: asset.changePercent24Hr,
                 vwap24Hr: asset.vwap24Hr
             })
-        })    
-        console.log(`3[List][res][AssetRepository]all: ${JSON.stringify(assets)}`);
+        })
+        console.log(`4[List][res][AssetRepository]all: ${JSON.stringify(assets)}`);
         return assets;
     }
 
-    static async findById({id}: {id: string}): Promise<AssetModel> {
-        console.log(`3[AssetRepository][req][findById]id:${id}`);
-        const res = await ApiAdapter.getByAssetId({id: id});
-        console.log(`3[AssetRepository][res][findById]res:${JSON.stringify(res)}`);
+    static async findById({ id }: { id: string }): Promise<AssetModel> {
+        console.log(`4[AssetRepository][req][findById]id:${id}`);
+        const res = await ApiAdapter.getByAssetId({ id: id });
+        console.log(`4[AssetRepository][res][findById]res:${JSON.stringify(res)}`);
         const asset = new AssetModel({
-            id: res.id, 
+            id: res.id,
             rank: res.rank,
             symbol: res.symbol,
             name: res.name,
@@ -54,21 +54,21 @@ export default class AssetRepository {
             changePercent24Hr: res.changePercent24Hr,
             vwap24Hr: res.vwap24Hr
         });
-        console.log(`3[AssetRepository][res][findById]asset:${JSON.stringify(asset)}`);
+        console.log(`4[AssetRepository][res][findById]asset:${JSON.stringify(asset)}`);
         return asset;
     }
 
-    static async findByIdAndInterval({id, interval}:{id: string, interval: string}): Promise<[AssetHistoryModel]> {
-        const res = await ApiAdapter.getByAssetIdAndInterval({id: id, interval: interval});
+    static async findByIdAndInterval({ id, interval }: { id: string, interval: string }): Promise<[AssetHistoryModel]> {
+        const res = await ApiAdapter.getByAssetIdAndInterval({ id: id, interval: interval });
         const stories = res.map((history: {
-            priceUsd: string; 
+            priceUsd: string;
             time: number,
         }) => {
             return new AssetHistoryModel({
-                price: history.priceUsd, 
+                price: history.priceUsd,
                 date: history.time,
             })
-        })    
+        })
 
         return stories;
     }

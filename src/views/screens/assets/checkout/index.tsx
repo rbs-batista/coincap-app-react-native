@@ -4,11 +4,10 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as yup from "yup";
-import { Button, Input } from '../../../components';
-import { TextInputMask } from 'react-native-masked-text';
-import { Dialog, Loading } from "../../../../helpers";
 import ShoppingCartController from "../../../../controllers/shopping_cart_controller";
 import { OrderTypeEnum } from "../../../../enums";
+import { Dialog, Loading } from "../../../../helpers";
+import { Button, Input } from '../../../components';
 
 type FormDataProps = {
   // id: any;
@@ -30,30 +29,30 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
   );
 
   async function handlerRegister(data: FormDataProps) {
-    try{
+    try {
       Loading.start();
-
+      console.log(`--------------Checkout req-----------------`);
       var message = '';
-      if(type === OrderTypeEnum.BUY) {
+      if (type === OrderTypeEnum.BUY) {
         console.log(`1[Checkout][req][buy]type: ${type}`);
-        await ShoppingCartController.buy({id: id, amount: data.amount});
+        await ShoppingCartController.buy({ id: id, amount: data.amount });
         console.log(`1[Checkout][res][buy]id: ${id}, amount: ${data.amount}`);
         message = 'Compra efatuada com sucesso!';
       }
 
-      if(type === OrderTypeEnum.SALE) {
+      if (type === OrderTypeEnum.SALE) {
         console.log(`1[Checkout][req][buy]type: ${type}`);
-        await ShoppingCartController.sale({id: id, amount: data.amount});
+        await ShoppingCartController.sale({ id: id, amount: data.amount });
         console.log(`1[Checkout][res][buy]id: ${id}, amount: ${data.amount}`);
         message = 'Venda efetuada com sucesso!';
       }
-  
-      console.log(`-------------------------------`);
+
+      console.log(`--------------Checkout res-----------------`);
       Loading.finished();
-      Dialog.success({message: message});
+      Dialog.success({ message: message });
     } catch {
       Loading.finished();
-      Dialog.error({message: 'Erro ao fazer o pagamento'});
+      Dialog.error({ message: 'Erro ao fazer o pagamento' });
     }
 
   }

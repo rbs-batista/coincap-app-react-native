@@ -9,16 +9,12 @@ export default class BaasRepository {
         console.log(`4[BaasRepository][req][getBalance]all`);
         const res = await this.adapter.all();
         console.log(`4[BaasRepository][res][getBalance]all: ${JSON.stringify(res)}`);
-
-        const amount = res == null ? 1000.10 : res.amount;
-       
-        const balance = new BalanceModel({amount: amount});
-        console.log(`4[BaasRepository][res][getBalance]all: ${JSON.stringify(balance)}`);
+        const balance = new BalanceModel({ amount: res.amount });
         return balance;
     }
 
-    static async updateBalance({balance}: {balance: BalanceEntity}): Promise<void> {
-
-        await this.adapter.updateAll({balance: balance});
+    static async updateBalance({ balance }: { balance: BalanceEntity }): Promise<void> {
+        console.log(`4[BaasRepository][req][updateBalance]updateAll: balance= ${JSON.stringify((balance))}`);
+        await this.adapter.updateAll({ balance: balance });
     }
 }
