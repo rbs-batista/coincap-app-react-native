@@ -10,19 +10,18 @@ import OrderController from '../../../../controllers/order_controller';
 
 export const Index = ({ navigation }: { navigation: any }) => {
 
-  const [orders, setOrders] = useState<OrderModel[]>([]);
-  const [filteredOrders, setFilteredOrders] = useState<OrderModel[]>([]);
+  const [stores, setStores] = useState<OrderModel[]>([]);
+  const [filteredStores, setFilteredStores] = useState<OrderModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         Loading.start();
         const res = await OrderController.index();
-        console.log(`Order fetchData: ${JSON.stringify(res)}`);
-        setFilteredOrders(res);
-        setOrders(res);
+        console.log(`Store fetchData: ${JSON.stringify(res)}`);
+        setFilteredStores(res);
+        setStores(res);
         
         Loading.finished();
       } catch (err) {
@@ -35,12 +34,12 @@ export const Index = ({ navigation }: { navigation: any }) => {
   }, []);
 
   useEffect(() => {
-    const results = orders.filter(order =>
-      order.assetName.toLowerCase().includes(searchQuery.toLowerCase())
+    const results = stores.filter(store =>
+      store.assetName.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredOrders(results);
+    setFilteredStores(results);
 
-  }, [searchQuery, orders]);
+  }, [searchQuery, stores]);
 
   const handleNavigate = async ({ id }: { id: string }) => {
     await navigation.navigate('Ordens', { id: id });
@@ -76,7 +75,7 @@ export const Index = ({ navigation }: { navigation: any }) => {
       </View>
       <ScrollView>
         <FlatList
-          data={filteredOrders}
+          data={filteredStores}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
               <ListItem

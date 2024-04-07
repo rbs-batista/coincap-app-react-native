@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { Checkout } from "../views/screens/assets/checkout";
+import { Checkout } from "../views/screens/checkout";
 import { Detail } from "../views/screens/assets/detail";
 import { Index as Assets} from "../views/screens/assets/index";
 import { Index as Orders} from "../views/screens/order/index";
@@ -60,9 +60,17 @@ function MainStackNavigator() {
                     headerTitleAlign: 'center',
                 }}
             />
+            <Stack.Screen
+                name="Orders"
+                component={Orders}
+                options={{
+                    headerTitle: 'Ordens',
+                    headerTitleAlign: 'center',
+                }}
+            />
         </Stack.Navigator>
     );
-  }
+}
   
 function BottomTabNavigator() {
 return (

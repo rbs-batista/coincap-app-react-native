@@ -4,13 +4,12 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as yup from "yup";
-import ShoppingCartController from "../../../../controllers/shopping_cart_controller";
-import { OrderTypeEnum } from "../../../../enums";
-import { Dialog, Loading } from "../../../../helpers";
-import { Button, Input } from '../../../components';
+import ShoppingCartController from "../../../controllers/shopping_cart_controller";
+import { OrderTypeEnum } from "../../../enums";
+import { Dialog, Loading } from "../../../helpers";
+import { Button, Input } from '../../components';
 
 type FormDataProps = {
-  // id: any;
   // name: string;
   amount: number;
 }
@@ -28,6 +27,10 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
   }
   );
 
+  const handleNavigate = async () => {
+    await navigation.navigate('Orders');
+  };
+
   async function handlerRegister(data: FormDataProps) {
     try {
       Loading.start();
@@ -44,6 +47,8 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
 
       Loading.finished();
       Dialog.success({ message: message });
+
+      handleNavigate();
     } catch {
       Loading.finished();
       Dialog.error({ message: 'Erro ao fazer o pagamento' });
