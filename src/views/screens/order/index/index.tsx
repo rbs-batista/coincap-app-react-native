@@ -3,28 +3,26 @@ import { FlatList, ScrollView, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
-import AssetController from '../../../../controllers/asset_controller';
-import BaasController from '../../../../controllers/baas_controller';
 import { Dialog, Loading, Util } from '../../../../helpers';
-import { AssetModel, BalanceModel } from '../../../../models';
 import styles from "./styles";
+import { OrderModel } from '../../../../models';
+import OrderController from '../../../../controllers/order_controller';
 
 export const Index = ({ navigation }: { navigation: any }) => {
-  const [balance, setBalance] = useState<BalanceModel | null>();
-  const [assets, setAssets] = useState<AssetModel[]>([]);
-  const [filteredAssets, setFilteredAssets] = useState<AssetModel[]>([]);
+
+  const [orders, setOrders] = useState<OrderModel[]>([]);
+  const [filteredOrders, setFilteredOrders] = useState<OrderModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        Loading.start();        
-        const balance = await BaasController.balance();        
-        const res = await AssetController.index();        
-        setBalance(balance);
-        setFilteredAssets(res);
-        setAssets(res);
+        Loading.start();
+        const res = await OrderController.index();
+        setFilteredOrders(res);
+        setOrders(res);
+        
         Loading.finished();
       } catch (err) {
         Loading.finished();
@@ -36,15 +34,15 @@ export const Index = ({ navigation }: { navigation: any }) => {
   }, []);
 
   useEffect(() => {
-    const results = assets.filter(asset =>
-      asset.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const results = orders.filter(order =>
+      order.assetName.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredAssets(results);
+    setFilteredOrders(results);
 
-  }, [searchQuery, assets]);
+  }, [searchQuery, orders]);
 
   const handleNavigate = async ({ id }: { id: string }) => {
-    await navigation.navigate('Details', { id: id });
+    await navigation.navigate('Ordens', { id: id });
   };
 
   const clearInput = () => {
@@ -60,9 +58,6 @@ export const Index = ({ navigation }: { navigation: any }) => {
 
   return (
     <>
-      <View style={styles.balanceContainer}>
-        <Text style={styles.balance}>R$ {balance?.amount ?? 0.00}</Text>
-      </View>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -80,28 +75,28 @@ export const Index = ({ navigation }: { navigation: any }) => {
       </View>
       <ScrollView>
         <FlatList
-          data={filteredAssets}
+          data={filteredOrders}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
               <ListItem
                 key={item.id}
                 containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
               >
-                <Avatar
-                  title={item.avatar}
+                {/* <Avatar
+                  title={item.}
                   overlayContainerStyle={{
                     backgroundColor: Util.cryptoBackgroundColor({ symbol: item.symbol }),
                     color: 'dde4eb'
                   }}
                   rounded
-                />
+                /> */}
                 <ListItem.Content>
-                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.supply}</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.assetName}</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.assetPrice}</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>{item.price} USD</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.percent }) }}>{item.percent} %</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#fcffff' }}>{item.amount} USD</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.assetPercent }) }}>{item.assetPercent} %</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron style={{ color: '#3bdd8a' }} />
               </ListItem>
@@ -114,4 +109,3 @@ export const Index = ({ navigation }: { navigation: any }) => {
   );
 
 }
-

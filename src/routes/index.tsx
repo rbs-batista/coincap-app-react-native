@@ -4,18 +4,20 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { Checkout } from "../views/screens/assets/checkout";
 import { Detail } from "../views/screens/assets/detail";
-import { Index } from "../views/screens/assets/index";
+import { Index as Assets} from "../views/screens/assets/index";
+import { Index as Orders} from "../views/screens/order/index";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
 export type RootTabParamList = {
-    List: undefined;
-    Detail: undefined;
-    MyAssets: undefined;
-    Order: undefined;
+    // List: undefined;
+    // Detail: undefined;
+    // MyAssets: undefined;
+    Orders: undefined;
 }
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator<RootTabParamList>();
+const Tab = createBottomTabNavigator();
 
 const Theme = {
     ...DefaultTheme,
@@ -31,37 +33,63 @@ const Theme = {
     },
 }
 
+function MainStackNavigator() {
+    return (
+        <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+                name="Home"
+                component={Assets}
+                options={{
+                    headerTitle: 'Saldo',
+                    headerTitleAlign: 'center',
+                }}
+            />
+            <Stack.Screen
+                name="Details"
+                component={Detail}
+                options={{
+                    headerTitle: 'Detalhes',
+                    headerTitleAlign: 'center',
+                }}
+            />
+            <Stack.Screen
+                name="Checkout"
+                component={Checkout}
+                options={{
+                    headerTitle: 'Checkout',
+                    headerTitleAlign: 'center',
+                }}
+            />
+        </Stack.Navigator>
+    );
+  }
+  
+function BottomTabNavigator() {
+return (
 
+    <Tab.Navigator>
+    <Tab.Screen
+        name="Orders"
+        component={Orders}
+        options={
+            {
+                tabBarIcon: ({color}) => <MaterialCommunityIcons name= "text-box-outline" color={color} size={23}/>,
+                title: 'Ordens',
+                tabBarStyle: {paddingBottom: 5, backgroundColor: "#1d262f"},
+                headerTitleAlign: 'center',
+            }
+        }
+    />
+</Tab.Navigator>
+);
+}
 export const Routes = () => {
 
     return (
         <NavigationContainer theme={Theme}>
-            <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen
-                    name="Home"
-                    component={Index}
-                    options={{
-                        headerTitle: 'Saldo',
-                        headerTitleAlign: 'center',
-                    }}
-                />
-                <Stack.Screen
-                    name="Details"
-                    component={Detail}
-                    options={{
-                        headerTitle: 'Detalhes',
-                        headerTitleAlign: 'center',
-                    }}
-                />
-                <Stack.Screen
-                    name="Checkout"
-                    component={Checkout}
-                    options={{
-                        headerTitle: 'Checkout',
-                        headerTitleAlign: 'center',
-                    }}
-                />
-            </Stack.Navigator>
+            <MainStackNavigator />
+            {/* <BottomTabNavigator /> */}
+
             {/* <Tab.Navigator>
                 <Tab.Screen
                     name="List"

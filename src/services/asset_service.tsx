@@ -6,9 +6,8 @@ export default class AssetService {
     }
 
     static async findById({ id }: { id: string }) {
-        console.log(`3[AssetService][req][findById]id:${id}`);
-        const asset = await AssetRepository.findById({ id: id });
-        console.log(`3[AssetService][req][findById]id:${id}`);
+        
+        const asset = await AssetRepository.findById({ id: id });        
 
         return asset;
     }

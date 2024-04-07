@@ -31,23 +31,17 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
   async function handlerRegister(data: FormDataProps) {
     try {
       Loading.start();
-      console.log(`--------------Checkout req-----------------`);
       var message = '';
       if (type === OrderTypeEnum.BUY) {
-        console.log(`1[Checkout][req][buy]type: ${type}`);
         await ShoppingCartController.buy({ id: id, amount: data.amount });
-        console.log(`1[Checkout][res][buy]id: ${id}, amount: ${data.amount}`);
         message = 'Compra efatuada com sucesso!';
       }
 
       if (type === OrderTypeEnum.SALE) {
-        console.log(`1[Checkout][req][buy]type: ${type}`);
-        await ShoppingCartController.sale({ id: id, amount: data.amount });
-        console.log(`1[Checkout][res][buy]id: ${id}, amount: ${data.amount}`);
+        await ShoppingCartController.sale({ id: id, amount: data.amount });      
         message = 'Venda efetuada com sucesso!';
       }
 
-      console.log(`--------------Checkout res-----------------`);
       Loading.finished();
       Dialog.success({ message: message });
     } catch {

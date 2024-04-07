@@ -53,9 +53,9 @@ export default class OrderRepository {
     }
 
     static async create({data}:{data: OrderEntity}): Promise<void> {
-        console.log(`4[OrderRepository][req][create]create orderEntity:${JSON.stringify(data)}`);
+        
         await this.adapter.create({newData: data});
-        console.log(`4[OrderRepository][req][create]create`);
+        
     }
 
     static async delete({id}:{id: string}): Promise<void> {
