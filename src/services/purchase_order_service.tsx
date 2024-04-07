@@ -11,9 +11,10 @@ export default class PurchaseOrderService {
         const asset = await AssetService.findById({ id: assetId });
         console.log(`3[PurchaseOrderService][res][store]asset:${JSON.stringify(asset)}`);
         const product = await StoreService.buy({ assetId: assetId, amount: amount });
-        console.log(`3[PurchaseOrderService][req][store]product: ${JSON.stringify(product)}`);
-        // await OrderService.create({asset: asset, product: product, 
-        //                             type: OrderTypeEnum.BUY, amount: amount});
+        console.log(`3[PurchaseOrderService][req][store]create`);
+        await OrderService.create({asset: asset, product: product, 
+                                    type: OrderTypeEnum.BUY, amount: amount});
+        console.log(`3[PurchaseOrderService][res][store]create`);                                    
 
     }
 

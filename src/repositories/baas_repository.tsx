@@ -14,7 +14,8 @@ export default class BaasRepository {
     }
 
     static async updateBalance({ balance }: { balance: BalanceEntity }): Promise<void> {
-        console.log(`4[BaasRepository][req][updateBalance]updateAll: balance= ${JSON.stringify((balance))}`);
-        await this.adapter.updateAll({ balance: balance });
+        console.log(`4[BaasRepository][req][updateBalance]update balance: ${JSON.stringify((balance))}`);
+        await this.adapter.update({ updateData: balance });
+        console.log(`4[BaasRepository][res][updateBalance]update balance: ${JSON.stringify((balance))}`);
     }
 }

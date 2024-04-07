@@ -1,5 +1,5 @@
 import { OrderEntity, ProductEntity } from "../entities";
-import { AssetModel, OrderModel } from "../models";
+import { AssetModel, OrderModel, ProductModel } from "../models";
 import OrderRepository from "../repositories/order_repository";
 import { OrderTypeEnum } from "../enums";
 
@@ -14,9 +14,9 @@ export default class OrderService {
 
     static async create(
         {asset, product, type, amount}: 
-        {asset: AssetModel, product: ProductEntity, type: OrderTypeEnum, amount: number}
+        {asset: AssetModel, product: any, type: OrderTypeEnum, amount: number}
     ): Promise<void> {
-
+        console.log(`3[OrderService][req][create]create orderEntity: ${JSON.stringify({asset, product, type, amount})}`);
         const orderEntity = new OrderEntity({
             productId: product.id,
             assetId: asset.id,
@@ -27,6 +27,8 @@ export default class OrderService {
             type: type
         });
 
+        console.log(`3[OrderService][req][create]create orderEntity: ${JSON.stringify(orderEntity)}`);
         await OrderRepository.create({data: orderEntity});
+        console.log(`3[OrderService][res][create]create`);
     }
 }

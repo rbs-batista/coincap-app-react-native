@@ -57,23 +57,25 @@ export default class ProductRepository {
         return productModel;
     }
 
-    static async create({ assetId, amount }: { assetId: string, amount: number }): Promise<ProductModel | null> {
-        console.log(`4[ProductRepository][req][create]create assetId:${assetId}, amount:${amount}`);
-        const productEntity = new ProductEntity({
-            assetId: assetId,
-            amount: amount
-        });
+    static async create({ product }: { product: ProductEntity }): Promise<ProductModel | null> {
+        console.log(`4[ProductRepository][req][create]create product:${JSON.stringify(product)}`);
 
-        await this.adapter.create({ data: productEntity });
+        await this.adapter.create({ newData: product });
 
-        console.log(`4[ProductRepository][res][create]create ${JSON.stringify(productEntity)}`);
-        const productModel = await this.findById({ id: productEntity.id });
+        console.log(`4[ProductRepository][res][create]create ${JSON.stringify(product)}`);
+        const productModel = await this.findById({ id: product.id });
         console.log(`4[ProductRepository][res][create]create ${JSON.stringify(productModel)}`);
         return productModel;
     }
 
-    static async update({ id, data }: { id: string, data: any }) {
-        return await this.adapter.update({ id: id, data: data });
+    static async update({ product }: { product: ProductEntity }): Promise<ProductModel | null> {
+
+        console.log(`4[ProductRepository][req][update]update product:${JSON.stringify(product)}`);
+        await this.adapter.update({ updateData:  product});
+        console.log(`4[ProductRepository][res][update]update ${JSON.stringify(product)}`);
+        const productModel = await this.findById({ id: product.id });
+        console.log(`4[ProductRepository][res][update]findById ${JSON.stringify(productModel)}`);
+        return productModel;
     }
 
     static async delete({ id }: { id: string }) {

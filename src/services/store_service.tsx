@@ -1,3 +1,4 @@
+import { ProductEntity } from "../entities";
 import { ProductModel } from "../models";
 import ProductRepository from "../repositories/product_repository";
 import BaasService from "./baas_service";
@@ -31,38 +32,45 @@ export default class StoreService {
         }
         console.log(`3[StoreService][res][buy]throw`);
 
+        const productEntity = new ProductEntity({
+            assetId: assetId,
+            amount: amount
+        });
+
         if (product == null) {
-            product = await ProductRepository.create({ assetId: assetId, amount: amount });
+            console.log(`3[StoreService][req][buy]create productEntity: ${JSON.stringify(productEntity)}`);
+            product = await ProductRepository.create({ product: productEntity});
+            console.log(`3[StoreService][res][buy]create product: ${JSON.stringify(product)}`);
+        } else {
+            productEntity.id = product.id;
+            productEntity.amount += amount; 
+            console.log(`3[StoreService][req][buy]update productEntity: ${JSON.stringify(productEntity)}`);
+            product = await ProductRepository.update({ product: productEntity });
+            console.log(`3[StoreService][res][buy]update product: ${JSON.stringify(product)}`);
         }
-        // if(product == null) {
 
-        //     product = await ProductRepository.create({assetId: assetId, amount: amount});
-        // } else {
-
-        //     product.amount += amount;
-        //     await ProductRepository.update({id: assetId, data: product});
-        // }
-
+        console.log(`3[StoreService][req][buy]debit balance: ${amount}`);
         await BaasService.debit({ amount: amount });
+        console.log(`3[StoreService][res][buy]debit`);
 
         return product;
     }
 
     static async sale({ assetId, amount }: { assetId: string, amount: number }): Promise<void> {
 
-        var product = await ProductRepository.findById({ id: assetId });
+        // var product = await ProductRepository.findById({ id: assetId });
 
-        if (product === null) return;
-        product.amount -= amount;
+        // if (product === null) return;
+        // product.amount -= amount;
 
-        if (product.amount < 0) {
-            throw new Error(`O valor de venda ${amount} é maior que o total disponível de ${product.amount}`);
-        }
+        // if (product.amount < 0) {
+        //     throw new Error(`O valor de venda ${amount} é maior que o total disponível de ${product.amount}`);
+        // }
 
-        if (product.amount == 0) {
-            await ProductRepository.delete({ id: assetId });
-        }
+        // if (product.amount == 0) {
+        //     await ProductRepository.delete({ id: assetId });
+        // }
 
-        await ProductRepository.update({ id: assetId, data: product });
+        // await ProductRepository.update({ id: assetId, data: product });
     }
 }
