@@ -96,7 +96,6 @@ export const Index = ({ navigation }: { navigation: any }) => {
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
                   <ListItem.Title style={{ color: '#fcffff' }}>{item.product.amount} BRL</ListItem.Title>
-                  {/* <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.asset.percent }) }}>{item.asset.percent} %</ListItem.Subtitle> */}
                 </ListItem.Content>
                 <ListItem.Chevron style={{ color: '#3bdd8a' }} />
               </ListItem>

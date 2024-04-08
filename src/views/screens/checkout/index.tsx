@@ -26,28 +26,29 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
   const [balance, setBalance] = useState<BalanceModel | null>();
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(schemaRegister) as any
-  }
-  );
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            Loading.start();                
+            const balance = await BaasController.balance();                
+
+            setBalance(balance);
+            Loading.finished();
+        } catch (error) {
+            Loading.finished();
+            Dialog.error({ message: 'Erro ao buscar saldo' });
+        }
+    };
+
+    fetchData();
+
+  }, []);
 
   const handleNavigate = async () => {
     await navigation.navigate('Orders');
   };
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        Loading.start();        
-        const balance = await BaasController.balance();             
-        setBalance(balance);
-        Loading.finished();
-      } catch (err) {
-        Loading.finished();
-        Dialog.error({ message: 'Erro ao buscar saldo' });
-      }
-    };
-
-    fetchData();
-  });
 
   async function handlerRegister(data: FormDataProps) {
     try {
@@ -55,7 +56,7 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
       console.log(OrderTypeTranslate(type))
 
       if (type === OrderTypeEnum.BUY) {
-        await ShoppingCartController.buy({ id: id, amount: data.amount });
+        await ShoppingCartController.buy({ id: id, amount: data.amount, type: type});
         Dialog.success({ message: 'Compra efatuada com sucesso!' });
       }
 
@@ -67,7 +68,7 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
       await handleNavigate();
     } catch(e) {
       Loading.finished();
-      Dialog.error({ message: 'Erro ao fazer o pagamento!' + e});
+      Dialog.error({ message: 'Erro ao efetuar pagamento!' + e});
     }
   }
 

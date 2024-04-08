@@ -16,7 +16,7 @@ const OrderTypeFromEnum = (type: string): OrderTypeEnum => {
   }
 }
 
-const OrderTypeToEnum = (type: OrderTypeEnum): string => {
+const OrderTypeToString = (type: OrderTypeEnum): string => {
   switch (type) {
     case OrderTypeEnum.BUY:
       return 'BUY';
@@ -41,6 +41,6 @@ switch (type) {
 export {
   OrderTypeEnum,
   OrderTypeFromEnum,
-  OrderTypeToEnum,
+  OrderTypeToString,
   OrderTypeTranslate
 }

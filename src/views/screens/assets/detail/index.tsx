@@ -2,7 +2,7 @@ import { Button, ScrollView, Text, View } from "native-base";
 import React, { useEffect, useState } from 'react';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from "../../../../controllers/asset_controller";
-import { OrderTypeEnum, OrderTypeToEnum } from "../../../../enums";
+import { OrderTypeEnum } from "../../../../enums";
 import { Dialog, Loading, Util } from "../../../../helpers";
 import { AssetModel } from "../../../../models";
 

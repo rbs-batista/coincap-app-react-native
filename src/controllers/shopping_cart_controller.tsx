@@ -1,10 +1,11 @@
 import { Double } from "react-native/Libraries/Types/CodegenTypes";
 import PurchaseOrderService from "../services/purchase_order_service";
+import { OrderTypeEnum } from "../enums";
 
 export default class ShoppingCartController {
-    static async buy({id, amount} : {id: string, amount: Double}): Promise<void> {
+    static async buy({id, amount, type} : {id: string, amount: Double, type: OrderTypeEnum}): Promise<void> {
         try {
-            await PurchaseOrderService.store({assetId: id, amount: amount});
+            await PurchaseOrderService.store({assetId: id, amount: amount, type: type});
         } catch(err) {
             throw(err);
         }

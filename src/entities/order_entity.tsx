@@ -8,12 +8,12 @@ export class OrderEntity{
     assetPercent: number; 
     assetPrice: number; 
     amount: number;
-    type: OrderTypeEnum;
+    type: string;
 
     constructor(
         {assetId, productId, assetName, assetPercent, assetPrice, amount, type}: 
         {assetId: string, productId: string, assetName: string,
-         assetPercent: number, assetPrice: number, amount: number, type: OrderTypeEnum}
+         assetPercent: number, assetPrice: number, amount: number, type: string}
     ) {
         this.id = uuid(),
         this.assetId = assetId,

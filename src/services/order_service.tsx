@@ -1,7 +1,7 @@
 import { OrderEntity, ProductEntity } from "../entities";
 import { AssetModel, OrderModel, ProductModel } from "../models";
 import OrderRepository from "../repositories/order_repository";
-import { OrderTypeEnum } from "../enums";
+import { OrderTypeEnum, OrderTypeToString } from "../enums";
 
 export default class OrderService {
     static async all(): Promise<[OrderModel]> {
@@ -24,7 +24,7 @@ export default class OrderService {
             assetPercent: asset.percent,
             assetPrice: asset.price,
             amount: amount,
-            type: type
+            type: OrderTypeToString(type)
         });
 
         await OrderRepository.create({data: orderEntity});

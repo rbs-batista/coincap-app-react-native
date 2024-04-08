@@ -5,14 +5,14 @@ import StoreService from "./store_service";
 
 export default class PurchaseOrderService {
 
-    static async store({ assetId, amount }: { assetId: string, amount: number }): Promise<void> {
+    static async store({ assetId, amount, type }: { assetId: string, amount: number, type: OrderTypeEnum }): Promise<void> {
 
         const asset = await AssetService.findById({ id: assetId });
 
         const product = await StoreService.buy({ assetId: assetId, amount: amount });
 
         await OrderService.create({asset: asset, product: product, 
-                                    type: OrderTypeEnum.BUY, amount: amount});
+                                    type: type, amount: amount});
 
     }
 
