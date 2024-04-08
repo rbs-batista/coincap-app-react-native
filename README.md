@@ -6,14 +6,14 @@
 - Npm (versão  9.8.1 ou superior)
 
 ## Instalação 
-2. Clone o repositório do projeto:
+1. Clone o repositório do projeto:
 
    ```
    git clone https://github.com/rbs-batista/coincap-app-react-native.git
    
    ```
 
-3. Acesse o diretório do projeto:
+2. Acesse o diretório do projeto:
 
    ```
    cd app_form

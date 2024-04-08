@@ -74,38 +74,28 @@ export const Index = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         )}
       </View>
-      <ScrollView>
-        <FlatList
-          data={filteredOrders}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
-              <ListItem
-                key={item.id}
-                containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
-              >
-                {/* <Avatar
-                  title={item.}
-                  overlayContainerStyle={{
-                    backgroundColor: Util.cryptoBackgroundColor({ symbol: item.symbol }),
-                    color: 'dde4eb'
-                  }}
-                  rounded
-                /> */}
-                <ListItem.Content>
-                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.assetName}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.assetPrice}</ListItem.Subtitle>
-                </ListItem.Content>
-                <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>{item.amount} USD</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.assetPercent }) }}>{item.assetPercent} %</ListItem.Subtitle>
-                </ListItem.Content>
-                <ListItem.Chevron style={{ color: '#3bdd8a' }} />
-              </ListItem>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </ScrollView>
+      <FlatList
+        data={filteredOrders}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
+            <ListItem
+              key={item.id}
+              containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
+            >
+              <ListItem.Content>
+                <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.assetName}</ListItem.Title>
+                <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.assetPrice}</ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Content style={{ alignItems: 'flex-end' }}>
+                <ListItem.Title style={{ color: '#fcffff' }}>{item.amount} USD</ListItem.Title>
+                <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.assetPercent }) }}>{item.assetPercent} %</ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Chevron style={{ color: '#3bdd8a' }} />
+            </ListItem>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </>
   );
 

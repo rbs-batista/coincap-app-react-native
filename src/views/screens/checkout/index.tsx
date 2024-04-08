@@ -7,7 +7,7 @@ import * as yup from "yup";
 import ShoppingCartController from "../../../controllers/shopping_cart_controller";
 import { OrderTypeEnum, OrderTypeTranslate } from "../../../enums";
 import { Dialog, Loading, Money } from "../../../helpers";
-import { Button, Input, Select } from '../../components';
+import { Button, Input } from '../../components';
 import styles from "./styles";
 import { BalanceModel } from "../../../models";
 import BaasController from "../../../controllers/baas_controller";

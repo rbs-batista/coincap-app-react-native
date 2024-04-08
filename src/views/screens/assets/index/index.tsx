@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FlatList, ScrollView, Text, View } from 'native-base';
+import { FlatList, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
@@ -78,38 +78,37 @@ export const Index = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         )}
       </View>
-      <ScrollView>
-        <FlatList
-          data={filteredAssets}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
-              <ListItem
-                key={item.id}
-                containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
-              >
-                <Avatar
-                  title={item.avatar}
-                  overlayContainerStyle={{
-                    backgroundColor: Util.cryptoBackgroundColor({ symbol: item.symbol }),
-                    color: 'dde4eb'
-                  }}
-                  rounded
-                />
-                <ListItem.Content>
-                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.supply}</ListItem.Subtitle>
-                </ListItem.Content>
-                <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>{item.price} USD</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.percent }) }}>{item.percent} %</ListItem.Subtitle>
-                </ListItem.Content>
-                <ListItem.Chevron style={{ color: '#3bdd8a' }} />
-              </ListItem>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </ScrollView>
+      <FlatList
+        data={filteredAssets}
+        
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
+            <ListItem
+              key={item.id}
+              containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
+            >
+              <Avatar
+                title={item.avatar}
+                overlayContainerStyle={{
+                  backgroundColor: Util.cryptoBackgroundColor({ symbol: item.symbol }),
+                  color: 'dde4eb'
+                }}
+                rounded
+              />
+              <ListItem.Content>
+                <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.name}</ListItem.Title>
+                <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.supply}</ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Content style={{ alignItems: 'flex-end' }}>
+                <ListItem.Title style={{ color: '#fcffff' }}>{item.price} USD</ListItem.Title>
+                <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.percent }) }}>{item.percent} %</ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Chevron style={{ color: '#3bdd8a' }} />
+            </ListItem>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </>
   );
 

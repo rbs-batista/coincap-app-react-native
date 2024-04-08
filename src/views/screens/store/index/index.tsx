@@ -73,37 +73,35 @@ export const Index = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         )}
       </View>
-      <ScrollView>
-        <FlatList
-          data={filteredStores}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleNavigate()}>
-              <ListItem
-                key={item.asset.id}
-                containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
-              >
-                <Avatar
-                  title={item.asset.avatar}
-                  overlayContainerStyle={{
-                    backgroundColor: Util.cryptoBackgroundColor({ symbol: item.asset.symbol }),
-                    color: 'dde4eb'
-                  }}
-                  rounded
-                />
-                <ListItem.Content>
-                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.asset.name}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.asset.price}</ListItem.Subtitle>
-                </ListItem.Content>
-                <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>{item.product.amount} BRL</ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron style={{ color: '#3bdd8a' }} />
-              </ListItem>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.asset.id}
-        />
-      </ScrollView>
+      <FlatList
+        data={filteredStores}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleNavigate()}>
+            <ListItem
+              key={item.asset.id}
+              containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
+            >
+              <Avatar
+                title={item.asset.avatar}
+                overlayContainerStyle={{
+                  backgroundColor: Util.cryptoBackgroundColor({ symbol: item.asset.symbol }),
+                  color: 'dde4eb'
+                }}
+                rounded
+              />
+              <ListItem.Content>
+                <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.asset.name}</ListItem.Title>
+                <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.asset.price}</ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Content style={{ alignItems: 'flex-end' }}>
+                <ListItem.Title style={{ color: '#fcffff' }}>{item.product.amount} BRL</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron style={{ color: '#3bdd8a' }} />
+            </ListItem>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.asset.id}
+      />
     </>
   );
 
