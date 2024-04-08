@@ -1,23 +1,44 @@
-Background: #131a20
-Background List: #1c2329
-Background button: #63b7ff
-Title: #dde4eb
-Subtitle: #eff1f3
-positive Money: #fcffff
-negative Money: #b96065
-Percent: #3bdd8a
-Arrow: #4586fb
+# Simulador de compras de criptoativos
 
+## Requisitos
 
-Key			        Descrição
-id			        Identificador exclusivo para ativo
-rank			    Classificação está em ordem crescente 
-symbol			    Símbolo mais comum usado para identificar o ativo 
-name			    Nome próprio do ativo
-supply			    Oferta disponível para negociação
-maxSupply		    Quantidade total de ativo emitidos
-marketCapUsd		Oferta x preço
-volumeUsd24Hr		Uantidade de volume de negociação representado em dólares americanos nas últimas 24 horas
-priceUsd		    Preço ponderado por volume com base em dados de mercado em tempo real, traduzido para USD
-changePercent24Hr	A direção e a mudança de valor nas últimas 24 horas
-vwap24Hr		    Preço médio ponderado por volume nas últimas 24 horas
+- Node (versão v18.18.2 ou superior)
+- Npm (versão  9.8.1 ou superior)
+
+## Instalação 
+2. Clone o repositório do projeto:
+
+   ```
+   git clone https://github.com/rbs-batista/coincap-app-react-native.git
+   
+   ```
+
+3. Acesse o diretório do projeto:
+
+   ```
+   cd app_form
+   ```
+
+3. Instale as dependências do projeto:
+
+   ```
+   npm i
+   ```
+## Como Rodar
+
+1. Para executar o projeto:
+
+   ```
+   npm start
+   ```
+
+2. Acesso pelo Expo Go no celular:
+
+   ```
+   Escaneie o QRCode utilizando o Expo Go no Android ou iOS
+   ```
+3. Acesso pelo android emulador:
+
+   ```
+   Após iniciar o emulador do Android, pressione a tecla 'a' no terminal.
+   ```
