@@ -1,12 +1,32 @@
 import { ProductEntity } from "../entities";
-import { ProductModel } from "../models";
+import { AssetModel, ProductModel } from "../models";
+import { StoreModel } from "../models/store_model";
+import AssetRepository from "../repositories/asset_repository";
 import ProductRepository from "../repositories/product_repository";
 import BaasService from "./baas_service";
 
 export default class StoreService {
-    static async all(): Promise<[ProductModel]> {
+    static async all(): Promise<StoreModel[]> {
         const products = await ProductRepository.all();
-        return products;
+        const assets = await AssetRepository.all();
+
+        const assetIds: string[] = products.map(product => product.assetId);
+        const filteredAssets = assets.filter(asset => assetIds.includes(asset.id));
+
+        const stores = products.map((product: {
+            id: string,
+            assetId: string;
+            amount: number;
+        }) => {
+            const asset = filteredAssets.find((asset) => asset.id === product.assetId);
+   
+            return new StoreModel({
+                product: product, 
+                asset: asset === undefined ? AssetModel.default() : asset,
+            });
+        })
+
+        return stores;
     }
 
     static async findById({ id }: { id: string }): Promise<ProductModel | null> {

@@ -1,27 +1,29 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Heading, Text, VStack } from 'native-base';
-import React from 'react';
+import { Heading, Text, VStack, View } from 'native-base';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as yup from "yup";
 import ShoppingCartController from "../../../controllers/shopping_cart_controller";
-import { OrderTypeEnum } from "../../../enums";
-import { Dialog, Loading } from "../../../helpers";
-import { Button, Input } from '../../components';
+import { OrderTypeEnum, OrderTypeTranslate } from "../../../enums";
+import { Dialog, Loading, Money } from "../../../helpers";
+import { Button, Input, Select } from '../../components';
+import styles from "./styles";
+import { BalanceModel } from "../../../models";
+import BaasController from "../../../controllers/baas_controller";
 
 type FormDataProps = {
-  // name: string;
   amount: number;
 }
 
 const schemaRegister = yup.object({
-  // name: yup.string().required('Nome obrigatório'),
   amount: yup.string().required('Valor é obrigatório'),
 
 })
 
 export const Checkout = ({ route, navigation }: { route: any, navigation: any }) => {
-  const { id, type } = route.params;
+  const { id, type }:{id: string, type: OrderTypeEnum} = route.params;
+  const [balance, setBalance] = useState<BalanceModel | null>();
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(schemaRegister) as any
   }
@@ -30,67 +32,76 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
   const handleNavigate = async () => {
     await navigation.navigate('Orders');
   };
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        Loading.start();        
+        const balance = await BaasController.balance();             
+        setBalance(balance);
+        Loading.finished();
+      } catch (err) {
+        Loading.finished();
+        Dialog.error({ message: 'Erro ao buscar saldo' });
+      }
+    };
+
+    fetchData();
+  });
 
   async function handlerRegister(data: FormDataProps) {
     try {
-      Loading.start();
-      var message = '';
+      
+      console.log(OrderTypeTranslate(type))
+
       if (type === OrderTypeEnum.BUY) {
         await ShoppingCartController.buy({ id: id, amount: data.amount });
-        message = 'Compra efatuada com sucesso!';
+        Dialog.success({ message: 'Compra efatuada com sucesso!' });
       }
 
       if (type === OrderTypeEnum.SALE) {
         await ShoppingCartController.sale({ id: id, amount: data.amount });      
-        message = 'Venda efetuada com sucesso!';
+        Dialog.success({ message: 'Venda efetuada com sucesso!'});
       }
 
+      await handleNavigate();
+    } catch(e) {
       Loading.finished();
-      Dialog.success({ message: message });
-
-      handleNavigate();
-    } catch {
-      Loading.finished();
-      Dialog.error({ message: 'Erro ao fazer o pagamento' });
+      Dialog.error({ message: 'Erro ao fazer o pagamento!' + e});
     }
-
   }
 
   return (
-    <KeyboardAwareScrollView>
-
-      <VStack flex={1} p={3}>
-        <Heading my={10}>
-          Compra de ativos
-        </Heading>
-        {/* <Text color={'#dde4eb'} marginLeft={'3'} marginBottom={'1'}>Nome</Text>
-        <Controller
-          control={control}
-          name="name"
-          render={({ field: { onChange } }) => (
-            <Input
-              onChangeText={onChange}
-              errorMessage={errors.name?.message}
-            />
-          )}
-        /> */}
-        <Text color={'#dde4eb'} marginLeft={'3'} marginBottom={'1'}>Valor</Text>
-        <Controller
-          control={control}
-          name="amount"
-          render={({ field: { onChange } }) => (
-            <Input
-              placeholder="R$ 0.00"
-              onChangeText={onChange}
-              errorMessage={errors.amount?.message}
-            />
-          )}
-        />
-        <Button
-          onPress={handleSubmit(handlerRegister)}
-          title={"CONFIRMAR"}>
-        </Button>
-      </VStack>
-    </KeyboardAwareScrollView>
+    <>
+      <View style={styles.balanceContainer}>
+        <Text style={styles.balance}>{Money.formatCurrency({value: balance?.amount})}</Text>
+      </View>
+      <KeyboardAwareScrollView>
+        <View style={styles.headerContainer}>
+          <Heading style={styles.header}>
+              { OrderTypeTranslate(type) }
+          </Heading>
+        </View>
+        <VStack style={styles.form}>
+          <Text style={styles.form.formLabel}>Valor</Text>
+          <Controller
+            control={control}
+            name="amount"
+            render={({ field: { onChange } }) => (
+              <Input
+                placeholder="R$ 0.00"
+                onChangeText={onChange}
+                errorMessage={errors.amount?.message}
+                keyboardType="numeric"
+              />
+            )}
+          />
+          <Button
+            onPress={handleSubmit(handlerRegister)}
+            title={"CONFIRMAR"}>
+          </Button>
+        </VStack>
+      </KeyboardAwareScrollView>
+    </>
   );
 }

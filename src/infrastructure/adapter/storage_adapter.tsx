@@ -68,7 +68,7 @@ export default class StorageAdapter {
     async delete({ id }: { id: string }): Promise<void> {
         const res = await this.all();
 
-        const currentData = res.filter((item: { id: string; }) => item.id != id);
+        const currentData = res.filter((item: { id: string }) => item.id != id);
 
         await AsyncStorageDriver.save(this.key, currentData);
     }

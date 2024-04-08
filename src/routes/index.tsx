@@ -6,6 +6,7 @@ import { Checkout } from "../views/screens/checkout";
 import { Detail } from "../views/screens/assets/detail";
 import { Index as Assets} from "../views/screens/assets/index";
 import { Index as Orders} from "../views/screens/order/index";
+import { Index as Stores} from "../views/screens/store/index";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
@@ -65,6 +66,14 @@ function MainStackNavigator() {
                 component={Orders}
                 options={{
                     headerTitle: 'Ordens',
+                    headerTitleAlign: 'center',
+                }}
+            />
+            <Stack.Screen
+                name="Stores"
+                component={Stores}
+                options={{
+                    headerTitle: 'Meus Ativos',
                     headerTitleAlign: 'center',
                 }}
             />

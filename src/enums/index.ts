@@ -1,7 +1,8 @@
-import {OrderTypeEnum, OrderTypeFromEnum, OrderTypeToEnum} from './order_type_enum';
+import {OrderTypeEnum, OrderTypeFromEnum, OrderTypeToEnum, OrderTypeTranslate} from './order_type_enum';
 
 export {
     OrderTypeEnum,
     OrderTypeFromEnum,
-    OrderTypeToEnum
+    OrderTypeToEnum,
+    OrderTypeTranslate,
 }

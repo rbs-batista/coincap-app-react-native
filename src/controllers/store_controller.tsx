@@ -9,8 +9,4 @@ export default class StoreController {
             throw(err);
         }
     }
-
-    static async detail({ id }:{ id: string }) {
-
-    }
 }

@@ -39,4 +39,21 @@ export class AssetModel {
         this.volume = Money.format({value: volumeUsd24Hr}),
         this.averagePrice = Money.format({value: vwap24Hr}) 
     }
+
+    static default(): AssetModel {
+        return new AssetModel({
+            id: 'N/A',
+            rank: 'N/A',
+            symbol: 'N/A',
+            name: 'N/A',
+            supply: '0',
+            maxSupply: '0',
+            marketCapUsd: '0',
+            volumeUsd24Hr: '0',
+            priceUsd: '0',
+            changePercent24Hr: '0',
+            vwap24Hr: '0',
+        });
+    }
+
 }

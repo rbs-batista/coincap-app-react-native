@@ -5,20 +5,20 @@ import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
 import { Dialog, Loading, Util } from '../../../../helpers';
 import styles from "./styles";
-import { OrderModel } from '../../../../models';
-import OrderController from '../../../../controllers/order_controller';
+import { StoreModel } from '../../../../models/store_model';
+import StoreController from '../../../../controllers/store_controller';
 
 export const Index = ({ navigation }: { navigation: any }) => {
 
-  const [stores, setStores] = useState<OrderModel[]>([]);
-  const [filteredStores, setFilteredStores] = useState<OrderModel[]>([]);
+  const [stores, setStores] = useState<StoreModel[]>([]);
+  const [filteredStores, setFilteredStores] = useState<StoreModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         Loading.start();
-        const res = await OrderController.index();
+        const res = await StoreController.index();
         console.log(`Store fetchData: ${JSON.stringify(res)}`);
         setFilteredStores(res);
         setStores(res);
@@ -31,18 +31,18 @@ export const Index = ({ navigation }: { navigation: any }) => {
     };
 
     fetchData();
-  }, []);
+  });
 
   useEffect(() => {
     const results = stores.filter(store =>
-      store.assetName.toLowerCase().includes(searchQuery.toLowerCase())
+      store.asset.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredStores(results);
 
   }, [searchQuery, stores]);
 
-  const handleNavigate = async ({ id }: { id: string }) => {
-    await navigation.navigate('Ordens', { id: id });
+  const handleNavigate = async () => {
+    await navigation.navigate();
   };
 
   const clearInput = () => {
@@ -77,32 +77,32 @@ export const Index = ({ navigation }: { navigation: any }) => {
         <FlatList
           data={filteredStores}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
+            <TouchableOpacity onPress={() => handleNavigate()}>
               <ListItem
-                key={item.id}
+                key={item.asset.id}
                 containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
               >
-                {/* <Avatar
-                  title={item.}
+                <Avatar
+                  title={item.asset.avatar}
                   overlayContainerStyle={{
-                    backgroundColor: Util.cryptoBackgroundColor({ symbol: item.symbol }),
+                    backgroundColor: Util.cryptoBackgroundColor({ symbol: item.asset.symbol }),
                     color: 'dde4eb'
                   }}
                   rounded
-                /> */}
+                />
                 <ListItem.Content>
-                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.assetName}</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.assetPrice}</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.asset.name}</ListItem.Title>
+                  <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.asset.price}</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                  <ListItem.Title style={{ color: '#fcffff' }}>{item.amount} USD</ListItem.Title>
-                  <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.assetPercent }) }}>{item.assetPercent} %</ListItem.Subtitle>
+                  <ListItem.Title style={{ color: '#fcffff' }}>{item.product.amount} BRL</ListItem.Title>
+                  {/* <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.asset.percent }) }}>{item.asset.percent} %</ListItem.Subtitle> */}
                 </ListItem.Content>
                 <ListItem.Chevron style={{ color: '#3bdd8a' }} />
               </ListItem>
             </TouchableOpacity>
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.asset.id}
         />
       </ScrollView>
     </>

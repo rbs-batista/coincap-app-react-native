@@ -5,7 +5,7 @@ import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from '../../../../controllers/asset_controller';
 import BaasController from '../../../../controllers/baas_controller';
-import { Dialog, Loading, Util } from '../../../../helpers';
+import { Dialog, Loading, Money, Util } from '../../../../helpers';
 import { AssetModel, BalanceModel } from '../../../../models';
 import styles from "./styles";
 
@@ -61,7 +61,7 @@ export const Index = ({ navigation }: { navigation: any }) => {
   return (
     <>
       <View style={styles.balanceContainer}>
-        <Text style={styles.balance}>R$ {balance?.amount ?? 0.00}</Text>
+        <Text style={styles.balance}>{Money.formatCurrency({value: balance?.amount})}</Text>
       </View>
       <View style={styles.searchContainer}>
         <TextInput

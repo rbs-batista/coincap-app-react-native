@@ -12,4 +12,18 @@ export const Money = {
 
       return parseFloat(value.toFixed(2));
     },
+
+    formatCurrency ({value}: {value: number | undefined}) {
+
+      if (!value || isNaN(value)) {
+          return ''; 
+      }
+  
+      const formattedValue = value.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+      });
+  
+      return formattedValue;
   }
+}
