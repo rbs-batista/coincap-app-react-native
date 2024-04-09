@@ -1,12 +1,13 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FlatList, ScrollView, Text, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
 import { Dialog, Loading, Util } from '../../../../helpers';
 import styles from "./styles";
 import { OrderModel } from '../../../../models';
 import OrderController from '../../../../controllers/order_controller';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const Index = ({ navigation }: { navigation: any }) => {
 
@@ -14,25 +15,22 @@ export const Index = ({ navigation }: { navigation: any }) => {
   const [filteredOrders, setFilteredOrders] = useState<OrderModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const fetchData = async () => {
+    try {
+      Loading.start();
+      const res = await OrderController.index();
+      console.log(`Order fetchData: ${JSON.stringify(res)}`);
+      setFilteredOrders(res);
+      setOrders(res);
+      
+      Loading.finished();
+    } catch (err) {
+      Loading.finished();
+      Dialog.error({ message: 'Erro ao buscar dados' });
+    }
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        Loading.start();
-        const res = await OrderController.index();
-        console.log(`Order fetchData: ${JSON.stringify(res)}`);
-        setFilteredOrders(res);
-        setOrders(res);
-        
-        Loading.finished();
-      } catch (err) {
-        Loading.finished();
-        Dialog.error({ message: 'Erro ao buscar dados' });
-      }
-    };
-
-    fetchData();
-  }, []);
+  useFocusEffect(useCallback(() => {fetchData()}, []));
 
   useEffect(() => {
     const results = orders.filter(order =>

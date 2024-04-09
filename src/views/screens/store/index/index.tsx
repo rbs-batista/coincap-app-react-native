@@ -1,12 +1,13 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FlatList, ScrollView, Text, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
 import { Dialog, Loading, Util } from '../../../../helpers';
 import styles from "./styles";
 import { StoreModel } from '../../../../models/store_model';
 import StoreController from '../../../../controllers/store_controller';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const Index = ({ navigation }: { navigation: any }) => {
 
@@ -14,24 +15,22 @@ export const Index = ({ navigation }: { navigation: any }) => {
   const [filteredStores, setFilteredStores] = useState<StoreModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        Loading.start();
-        const res = await StoreController.index();
-        console.log(`Store fetchData: ${JSON.stringify(res)}`);
-        setFilteredStores(res);
-        setStores(res);
-        
-        Loading.finished();
-      } catch (err) {
-        Loading.finished();
-        Dialog.error({ message: 'Erro ao buscar dados' });
-      }
-    };
+  const fetchData = async () => {
+    try {
+      Loading.start();
+      const res = await StoreController.index();
+      console.log(`Store fetchData: ${JSON.stringify(res)}`);
+      setFilteredStores(res);
+      setStores(res);
+      
+      Loading.finished();
+    } catch (err) {
+      Loading.finished();
+      Dialog.error({ message: 'Erro ao buscar dados' });
+    }
+  };
 
-    fetchData();
-  });
+  useFocusEffect(useCallback(() => {fetchData()}, []));
 
   useEffect(() => {
     const results = stores.filter(store =>

@@ -1,32 +1,30 @@
 import { Button, ScrollView, Text, View } from "native-base";
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from "../../../../controllers/asset_controller";
 import { OrderTypeEnum } from "../../../../enums";
 import { Dialog, Loading, Util } from "../../../../helpers";
 import { AssetModel } from "../../../../models";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const Detail = ({ route, navigation }: { route: any, navigation: any }) => {
     const { id } = route.params;
     const [asset, setAsset] = useState<AssetModel>();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                Loading.start();                
-                const res = await AssetController.detail({ id: id });                
+    const fetchData = async () => {
+        try {
+            Loading.start();                
+            const res = await AssetController.detail({ id: id });                
 
-                setAsset(res);
-                Loading.finished();
-            } catch (error) {
-                Loading.finished();
-                Dialog.error({ message: 'Erro ao buscar dados' });
-            }
-        };
+            setAsset(res);
+            Loading.finished();
+        } catch (error) {
+            Loading.finished();
+            Dialog.error({ message: 'Erro ao buscar dados' });
+        }
+    };
 
-        fetchData();
-
-    }, []);
+    useFocusEffect(useCallback(() => {fetchData()}, []));
 
     const handleNavigate = async ({ id, type }: { id: string, type: OrderTypeEnum }) => {
         await navigation.navigate('Checkout', { id: id, type: type });

@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FlatList, Text, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from '../../../../controllers/asset_controller';
@@ -8,6 +8,7 @@ import BaasController from '../../../../controllers/baas_controller';
 import { Dialog, Loading, Money, Util } from '../../../../helpers';
 import { AssetModel, BalanceModel } from '../../../../models';
 import styles from "./styles";
+import { useFocusEffect } from '@react-navigation/native';
 
 export const Index = ({ navigation }: { navigation: any }) => {
   const [balance, setBalance] = useState<BalanceModel | null>();
@@ -16,24 +17,22 @@ export const Index = ({ navigation }: { navigation: any }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        Loading.start();        
-        const balance = await BaasController.balance();        
-        const res = await AssetController.index();        
-        setBalance(balance);
-        setFilteredAssets(res);
-        setAssets(res);
-        Loading.finished();
-      } catch (err) {
-        Loading.finished();
-        Dialog.error({ message: 'Erro ao buscar dados' });
-      }
-    };
-
-    fetchData();
-  }, []);
+  const fetchData = async () => {
+    try {
+      Loading.start();        
+      const balance = await BaasController.balance();        
+      const res = await AssetController.index();        
+      setBalance(balance);
+      setFilteredAssets(res);
+      setAssets(res);
+      Loading.finished();
+    } catch (err) {
+      Loading.finished();
+      Dialog.error({ message: 'Erro ao buscar dados' });
+    }
+  };
+  
+  useFocusEffect(useCallback(() => {fetchData()}, []));
 
   useEffect(() => {
     const results = assets.filter(asset =>
