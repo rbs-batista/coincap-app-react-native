@@ -1,7 +1,8 @@
 # Simulador de compras de criptoativos
 
 ## Requisitos
-
+- Android Studio (versão 2023.2.1 Patch 1 ou superior)
+- git (versão 2.34.1 pu superior)
 - Node (versão v18.18.2 ou superior)
 - Npm (versão  9.8.1 ou superior)
 
@@ -16,7 +17,7 @@
 2. Acesse o diretório do projeto:
 
    ```
-   cd app_form
+   cd coincap-app-react-native
    ```
 
 3. Instale as dependências do projeto:
