@@ -8,8 +8,8 @@ export default class BaasRepository {
     static async getBalance(): Promise<BalanceModel> {
         
         const res = await this.adapter.all();
-        
-        const balance = new BalanceModel({ amount: res.amount });
+        const amount = res != null ? res.amount : 0.00; 
+        const balance = new BalanceModel({ amount: amount});
         return balance;
     }
 

@@ -52,8 +52,7 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
 
   async function handlerRegister(data: FormDataProps) {
     try {
-      
-      console.log(OrderTypeTranslate(type))
+      Loading.start();  
 
       if (type === OrderTypeEnum.BUY) {
         await ShoppingCartController.buy({ id: id, amount: data.amount, type: type});
@@ -65,6 +64,7 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
         Dialog.success({ message: 'Venda efetuada com sucesso!'});
       }
 
+      Loading.finished();
       await handleNavigate();
     } catch(e) {
       Loading.finished();
