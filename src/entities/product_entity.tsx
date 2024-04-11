@@ -5,10 +5,10 @@ export class ProductEntity{
     amount: number;
 
     constructor(
-        {assetId, amount}: 
-        {assetId: string, amount: number}
+        {id, assetId, amount}: 
+        {id: string, assetId: string, amount: number}
     ) {
-        this.id = uuid()
+        this.id = id,
         this.assetId = assetId,
         this.amount = amount
     }

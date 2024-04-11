@@ -40,8 +40,8 @@ export const Index = ({ navigation }: { navigation: any }) => {
 
   }, [searchQuery, stores]);
 
-  const handleNavigate = async () => {
-    await navigation.navigate();
+  const handleNavigate = async ({id, amount}:{id: string, amount: number }) => {
+    navigation.navigate('StoreDetails', {id: id, amount: amount});
   };
 
   const clearInput = () => {
@@ -75,7 +75,7 @@ export const Index = ({ navigation }: { navigation: any }) => {
       <FlatList
         data={filteredStores}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleNavigate()}>
+          <TouchableOpacity onPress={() => handleNavigate({id: item.asset.id, amount: item.product.amount})}>
             <ListItem
               key={item.asset.id}
               containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}

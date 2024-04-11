@@ -22,7 +22,7 @@ export const Money = {
       const formattedValue = roundedValue.toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL'
-    });
+      });
   
       return formattedValue;
   }

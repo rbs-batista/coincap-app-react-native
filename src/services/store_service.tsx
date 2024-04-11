@@ -4,6 +4,7 @@ import { StoreModel } from "../models/store_model";
 import AssetRepository from "../repositories/asset_repository";
 import ProductRepository from "../repositories/product_repository";
 import BaasService from "./baas_service";
+import uuid from 'uuid-random';
 
 export default class StoreService {
     static async all(): Promise<StoreModel[]> {
@@ -51,6 +52,7 @@ export default class StoreService {
         }
 
         const productEntity = new ProductEntity({
+            id: uuid(),
             assetId: assetId,
             amount: amount
         });
@@ -61,10 +63,9 @@ export default class StoreService {
             
         } else {
             productEntity.id = product.id;
-            productEntity.amount += amount; 
+            productEntity.amount += product.amount; 
             
             product = await ProductRepository.update({ product: productEntity });
-            
         }
 
         await BaasService.debit({ amount: amount });
@@ -72,21 +73,24 @@ export default class StoreService {
         return product;
     }
 
-    static async sale({ assetId, amount }: { assetId: string, amount: number }): Promise<void> {
+    static async sale({ productId, amount }: { productId: string, amount: number }): Promise<ProductModel | null> {
 
-        // var product = await ProductRepository.findById({ id: assetId });
+        var product = await ProductRepository.findById({ id: productId });
 
-        // if (product === null) return;
-        // product.amount -= amount;
+        if(product!.amount < amount) {
+            throw new Error(`O valor de venda ${amount} é maior que o total disponível ${product!.amount}`); 
+        }
 
-        // if (product.amount < 0) {
-        //     throw new Error(`O valor de venda ${amount} é maior que o total disponível de ${product.amount}`);
-        // }
+        const productEntity = new ProductEntity({
+            id: product!.id,
+            assetId: product!.assetId,
+            amount: product!.amount - amount
+        }); 
+        
+        product = await ProductRepository.update({ product: productEntity });
 
-        // if (product.amount == 0) {
-        //     await ProductRepository.delete({ id: assetId });
-        // }
+        await BaasService.credit({ amount: amount });
 
-        // await ProductRepository.update({ id: assetId, data: product });
+        return product;
     }
 }

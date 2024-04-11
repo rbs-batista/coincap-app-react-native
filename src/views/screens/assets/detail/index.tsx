@@ -1,4 +1,4 @@
-import { Button, ScrollView, Text, View } from "native-base";
+import { ScrollView, Text, View } from "native-base";
 import React, { useCallback, useEffect, useState } from 'react';
 import { Avatar, ListItem } from 'react-native-elements';
 import AssetController from "../../../../controllers/asset_controller";
@@ -6,6 +6,7 @@ import { OrderTypeEnum } from "../../../../enums";
 import { Dialog, Loading, Util } from "../../../../helpers";
 import { AssetModel } from "../../../../models";
 import { useFocusEffect } from "@react-navigation/native";
+import { Button } from "../../../components";
 
 export const Detail = ({ route, navigation }: { route: any, navigation: any }) => {
     const { id } = route.params;
@@ -102,20 +103,13 @@ export const Detail = ({ route, navigation }: { route: any, navigation: any }) =
                     <Button
                         onPress={() => handleNavigate({ id: asset?.id ?? '', type: OrderTypeEnum.BUY })}
                         style={{
-                            backgroundColor: '#63b7ff',
                             flex: 1,
                             opacity: asset ? 1 : 0.5,
                             pointerEvents: asset ? 'auto' : 'none',
                         }}
-                        disabled={!asset}
+                        disabled={!asset} 
+                        title={"Comprar"}
                     >
-                        <Text
-                            style={{
-                                fontWeight: 'bold',
-                                color: '#fbfdf1'
-                            }}>
-                            COMPRAR
-                        </Text>
                     </Button>
                 </View>
             </View>

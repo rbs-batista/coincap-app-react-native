@@ -4,17 +4,20 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { Checkout } from "../views/screens/checkout";
-import { Detail } from "../views/screens/assets/detail";
 import { Index as Assets} from "../views/screens/assets/index";
-import { Index as Orders} from "../views/screens/order/index";
+import { Detail as AssetDetail} from "../views/screens/assets/detail";
 import { Index as Stores} from "../views/screens/store/index";
+import { Detail as StoreDetail} from "../views/screens/store/detail";
+import { Index as Orders} from "../views/screens/order/index";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
 export type RootTabParamList = {
     Assets: undefined;
-    Detail: {id: string}
+    AssetDetail: {id: string}
     Checkout: {id: string, type: string}
+    Store: undefined
+    StoreDetail: {id: String, amount: string}
     Orders: undefined;
 }
 
@@ -47,8 +50,8 @@ function MainStackNavigator() {
                 }}
             />
             <Stack.Screen
-                name="Details"
-                component={Detail}
+                name="AssetDetails"
+                component={AssetDetail}
                 options={{
                     headerTitle: 'Detalhes',
                     headerTitleAlign: 'center',
@@ -75,6 +78,14 @@ function MainStackNavigator() {
                 component={Stores}
                 options={{                    
                     headerTitle: 'Meus Ativos',
+                    headerTitleAlign: 'center',
+                }}
+            />
+            <Stack.Screen
+                name="StoreDetail"
+                component={StoreDetail}
+                options={{                    
+                    headerTitle: 'Detalhes',
                     headerTitleAlign: 'center',
                 }}
             />
@@ -105,8 +116,8 @@ function BottomTabNavigator() {
                         navigation.setParams({ id: undefined });
                     },
                 })}
-                name="Details"
-                component={Detail}
+                name="AssetDetails"
+                component={AssetDetail}
                 options={{
                     headerTitle: 'Detalhes',
                     headerTitleAlign: 'center',
@@ -165,15 +176,38 @@ function BottomTabNavigator() {
                     tabBarIcon: ({color}) => <MaterialCommunityIcons name= "text-box-outline" color={color} size={23}/>,
                 }}
             />
+            <Tab.Screen
+                listeners={({ navigation }) => ({
+                    focus: () => {
+                        navigation.setParams({ id: undefined });
+                    },
+                })}
+                name="StoreDetails"
+                component={StoreDetail}
+                options={{
+                    headerTitle: 'Detalhes',
+                    headerTitleAlign: 'center',
+                    tabBarStyle: {paddingBottom: 5, backgroundColor: "#1d262f"},
+                    tabBarButton: () => null,
+                    headerLeft: () => 
+                    <MaterialCommunityIcons 
+                        name="chevron-left" 
+                        color={'#dde4eb'} 
+                        size={25} 
+                        style={{ marginLeft: 15 }} 
+                    />,
+                }}
+            />
         </Tab.Navigator>
     );
 }
+
 export const Routes = () => {
 
     return (
         <NavigationContainer theme={Theme}>
-            <MainStackNavigator />
-            {/* <BottomTabNavigator /> */}
+            {/* <MainStackNavigator /> */}
+            <BottomTabNavigator />
         </NavigationContainer>
     )
 }

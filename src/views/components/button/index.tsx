@@ -7,10 +7,10 @@ type Props = IButtonProps & {
 export function Button({ title, ...res }: Props) {
     return (
         <ButtonNativeBase
-            style={{ backgroundColor: '#63b7ff', }}
+            style={{ backgroundColor: '#3bdd8a', }}
             {...res}
         >
-            <Text style={{ fontWeight: 'bold', color: '#fbfdf1' }}>
+            <Text style={{ fontWeight: '800', color: '#000', fontSize: 17}}>
                 {title}
             </Text>
 

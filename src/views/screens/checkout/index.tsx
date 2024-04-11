@@ -29,8 +29,7 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
     resolver: yupResolver(schemaRegister) as any
   });
 
-  useEffect(() => {  
-    const fetchData = async () => {
+  const fetchData = async () => {
     try {
         Loading.start();                
         const balance = await BaasController.balance();                
@@ -40,9 +39,9 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
         Loading.finished();
         Dialog.error({ message: 'Erro ao buscar saldo' });
     }
+  }
 
-    fetchData();
-};}, []);
+  useFocusEffect(useCallback(() => {fetchData()}, []))
   
   const handleNavigate = async () => {
     await navigation.navigate('Orders');
@@ -55,15 +54,19 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
       if (type === OrderTypeEnum.BUY) {
         console.log("start");
         console.log("type: " + type);
-        await ShoppingCartController.buy({ id: id, amount: data.amount, type: type});
+        await ShoppingCartController.buy({ assetId: id, amount: data.amount, type: type});
         Loading.finished();
         Dialog.success({ message: 'Compra efatuada com sucesso!' });
         console.log("success");
       }
 
       if (type === OrderTypeEnum.SALE) {
-        await ShoppingCartController.sale({ id: id, amount: data.amount });      
+        console.log("start");
+        console.log("type: " + type);
+        await ShoppingCartController.sale({ productId: id, amount: data.amount, type: type});  
+        Loading.finished();    
         Dialog.success({ message: 'Venda efetuada com sucesso!'});
+        console.log("success");
       }
 
       Loading.finished();
@@ -103,7 +106,7 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
           />
           <Button
             onPress={handleSubmit(handlerRegister)}
-            title={"CONFIRMAR"}>
+            title={"Efetuar pagamento"}>
           </Button>
         </VStack>
       </KeyboardAwareScrollView>

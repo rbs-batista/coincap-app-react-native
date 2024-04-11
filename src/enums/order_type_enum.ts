@@ -28,14 +28,14 @@ const OrderTypeToString = (type: OrderTypeEnum): string => {
 }
 
 const OrderTypeTranslate = (type: OrderTypeEnum): string => {
-switch (type) {
-  case OrderTypeEnum.BUY:
-    return 'Compra de Ativos';
-  case OrderTypeEnum.SALE:
-    return 'Venda de Ativos';
-  default:
-    return 'Tipo Desconhecido';
-}
+  switch (type) {
+    case OrderTypeEnum.BUY:
+      return 'Compra';
+    case OrderTypeEnum.SALE:
+      return 'Venda';
+    default:
+      return 'Tipo Desconhecido';
+  }
 }
 
 export {

@@ -5,7 +5,7 @@ import StoreService from "./store_service";
 
 export default class PurchaseOrderService {
 
-    static async store({ assetId, amount, type }: { assetId: string, amount: number, type: OrderTypeEnum }): Promise<void> {
+    static async buy({ assetId, amount, type }: { assetId: string, amount: number, type: OrderTypeEnum }): Promise<void> {
 
         const asset = await AssetService.findById({ id: assetId });
 
@@ -16,20 +16,13 @@ export default class PurchaseOrderService {
 
     }
 
-    static async sale({ id, amount }: { id: string, amount: number }): Promise<void> {
+    static async sale({ productId, amount, type }: { productId: string, amount: number, type: OrderTypeEnum }): Promise<void> {
 
-        const asset = await AssetService.findById({ id: id });
+        const product = await StoreService.sale({ productId: productId, amount: amount });
 
-        const product = await StoreService.findById({ id: id });
+        const asset = await AssetService.findById({ id: product!.assetId });
 
-        if (product == null) return;
-
-        await StoreService.sale({ assetId: id, amount: amount });
-
-        await OrderService.create({
-            asset: asset, product: product,
-            type: OrderTypeEnum.SALE, amount: amount
-        });
-
+        await OrderService.create({asset: asset, product: product, 
+            type: type, amount: amount});
     }
 }

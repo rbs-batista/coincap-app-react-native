@@ -43,7 +43,7 @@ export const Index = ({ navigation }: { navigation: any }) => {
   }, [searchQuery, assets]);
 
   const handleNavigate = async ({ id }: { id: string }) => {
-    await navigation.navigate('Details', { id: id });
+    await navigation.navigate('AssetDetails', { id: id });
   };
 
   const clearInput = () => {

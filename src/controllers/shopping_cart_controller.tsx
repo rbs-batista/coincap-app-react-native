@@ -3,18 +3,19 @@ import PurchaseOrderService from "../services/purchase_order_service";
 import { OrderTypeEnum } from "../enums";
 
 export default class ShoppingCartController {
-    static async buy({id, amount, type} : {id: string, amount: Double, type: OrderTypeEnum}): Promise<void> {
+    static async buy({assetId, amount, type} : {assetId: string, amount: Double, type: OrderTypeEnum}): Promise<void> {
         try {
             console.log("type: " + type);
-            await PurchaseOrderService.store({assetId: id, amount: amount, type: type});
+            await PurchaseOrderService.buy({assetId: assetId, amount: amount, type: type});
         } catch(err) {
             throw(err);
         }
     }
 
-    static async sale({id, amount} : {id: string, amount: Double}):  Promise<void> {
+    static async sale({productId, amount, type} : { productId: string, amount: Double, type: OrderTypeEnum}):  Promise<void> {
         try {
-            await PurchaseOrderService.sale({id, amount});
+            console.log("type: " + type);
+            await PurchaseOrderService.sale({productId: productId, amount: amount, type: type});
         } catch(err) {
             throw(err);
         }

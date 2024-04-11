@@ -7,10 +7,9 @@ import { Dialog, Loading, Money, Util } from '../../../../helpers';
 import styles from "./styles";
 import { OrderModel } from '../../../../models';
 import OrderController from '../../../../controllers/order_controller';
-import { useFocusEffect } from '@react-navigation/native';
 import { OrderTypeTranslate } from '../../../../enums';
 
-export const Index = ({ navigation }: { navigation: any }) => {
+export const Index = () => {
 
   const [orders, setOrders] = useState<OrderModel[]>([]);
   const [filteredOrders, setFilteredOrders] = useState<OrderModel[]>([]);
@@ -33,7 +32,6 @@ export const Index = ({ navigation }: { navigation: any }) => {
   };
 
   useEffect(() => {fetchData()}, []);
-  // useFocusEffect(useCallback(() => { fetchData() }, [fetchData]));
 
   useEffect(() => {
     const results = orders.filter(order =>
@@ -41,10 +39,6 @@ export const Index = ({ navigation }: { navigation: any }) => {
     );
     setFilteredOrders(results);
   }, [searchQuery, orders]);
-
-  const handleNavigate = async ({ id }: { id: string }) => {
-    await navigation.navigate('Ordens', { id: id });
-  };
 
   const clearInput = () => {
     Keyboard.dismiss();
@@ -76,27 +70,23 @@ export const Index = ({ navigation }: { navigation: any }) => {
       </View>
       <FlatList
         data={filteredOrders}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleNavigate({ id: item.id })}>
+        renderItem={({ item }) => (          
             <ListItem
               key={item.id}
               containerStyle={{ backgroundColor: '#1c2329', marginBottom: 10 }}
             >
               <ListItem.Content>
                 <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.assetName}</ListItem.Title>
-                <ListItem.Subtitle style={{ color: '#eff1f3' }}>{OrderTypeTranslate(item.type)}</ListItem.Subtitle>
-              </ListItem.Content>
-              <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                <ListItem.Title style={{ color: Util.isNegative({ value: item.amount }) }}>{Money.formatCurrency({value: item?.amount})} BRL</ListItem.Title>
                 <ListItem.Subtitle style={{ color: '#eff1f3' }}>{item.assetPercent} USD</ListItem.Subtitle>
               </ListItem.Content>
-              <ListItem.Chevron style={{ color: '#3bdd8a' }} />
-            </ListItem>
-          </TouchableOpacity>
+              <ListItem.Content style={{ alignItems: 'flex-end' }}>
+                <ListItem.Title style={{ color: Util.isNegative({ value: item.amount }) }}>{Money.formatCurrency({value: item?.amount})}</ListItem.Title>
+                <ListItem.Subtitle style={{ color: '#eff1f3' }}>{OrderTypeTranslate(item.type).toUpperCase()}</ListItem.Subtitle>
+              </ListItem.Content>              
+            </ListItem>          
         )}
         keyExtractor={(item) => item.id}
       />
     </>
   );
-
 }
