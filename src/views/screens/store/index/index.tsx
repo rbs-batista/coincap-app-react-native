@@ -19,7 +19,7 @@ export const Index = ({ navigation }: { navigation: any }) => {
     try {
       Loading.start();
       const res = await StoreController.index();
-      console.log(`Store fetchData: ${JSON.stringify(res)}`);
+      
       setFilteredStores(res);
       setStores(res);
       
