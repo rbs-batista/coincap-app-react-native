@@ -1,4 +1,4 @@
-import { OrderTypeEnum, OrderTypeFromEnum, OrderTypeToEnum} from '../enums';
+import { OrderTypeEnum, OrderTypeFromEnum} from '../enums';
 export class OrderModel{
     id: string;
     assetId: string;

@@ -35,8 +35,6 @@ export default class StorageAdapter {
             data = newData;
         }
 
-        
-        
         await AsyncStorageDriver.save(this.key, data);
         
     }

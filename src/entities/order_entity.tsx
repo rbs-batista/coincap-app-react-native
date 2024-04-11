@@ -1,4 +1,4 @@
-import { OrderTypeEnum } from '../enums';
+import { OrderTypeEnum, OrderTypeToString } from '../enums';
 import uuid from 'uuid-random';
 export class OrderEntity{
     id: string;
@@ -13,7 +13,7 @@ export class OrderEntity{
     constructor(
         {assetId, productId, assetName, assetPercent, assetPrice, amount, type}: 
         {assetId: string, productId: string, assetName: string,
-         assetPercent: number, assetPrice: number, amount: number, type: string}
+         assetPercent: number, assetPrice: number, amount: number, type: OrderTypeEnum}
     ) {
         this.id = uuid(),
         this.assetId = assetId,
@@ -22,6 +22,6 @@ export class OrderEntity{
         this.assetPrice = assetPrice,
         this.assetPercent = assetPercent,
         this.amount = amount,
-        this.type = type
+        this.type = OrderTypeToString(type)
     }
 }

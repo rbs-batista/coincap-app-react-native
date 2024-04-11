@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Heading, Text, VStack, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as yup from "yup";
@@ -11,6 +11,7 @@ import { Button, Input } from '../../components';
 import styles from "./styles";
 import { BalanceModel } from "../../../models";
 import BaasController from "../../../controllers/baas_controller";
+import { useFocusEffect } from "@react-navigation/native";
 
 type FormDataProps = {
   amount: number;
@@ -28,35 +29,36 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
     resolver: yupResolver(schemaRegister) as any
   });
 
-  useEffect(() => {
+  useEffect(() => {  
     const fetchData = async () => {
-        try {
-            Loading.start();                
-            const balance = await BaasController.balance();                
-
-            setBalance(balance);
-            Loading.finished();
-        } catch (error) {
-            Loading.finished();
-            Dialog.error({ message: 'Erro ao buscar saldo' });
-        }
-    };
+    try {
+        Loading.start();                
+        const balance = await BaasController.balance();                
+        setBalance(balance);
+        Loading.finished();
+    } catch (error) {
+        Loading.finished();
+        Dialog.error({ message: 'Erro ao buscar saldo' });
+    }
 
     fetchData();
-
-  }, []);
-
+};}, []);
+  
   const handleNavigate = async () => {
     await navigation.navigate('Orders');
   };
 
   async function handlerRegister(data: FormDataProps) {
     try {
-      Loading.start();  
-
+      Loading.start();
+      
       if (type === OrderTypeEnum.BUY) {
+        console.log("start");
+        console.log("type: " + type);
         await ShoppingCartController.buy({ id: id, amount: data.amount, type: type});
+        Loading.finished();
         Dialog.success({ message: 'Compra efatuada com sucesso!' });
+        console.log("success");
       }
 
       if (type === OrderTypeEnum.SALE) {
@@ -65,10 +67,12 @@ export const Checkout = ({ route, navigation }: { route: any, navigation: any })
       }
 
       Loading.finished();
-      await handleNavigate();
-    } catch(e) {
+      console.log("finished");
+      handleNavigate();
+    } catch(err) {
       Loading.finished();
-      Dialog.error({ message: 'Erro ao efetuar pagamento!' + e});
+      console.log("err:" + err);
+      Dialog.error({ message: 'Erro ao efetuar pagamento!' + err});
     }
   }
 

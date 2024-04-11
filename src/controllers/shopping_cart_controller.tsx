@@ -5,6 +5,7 @@ import { OrderTypeEnum } from "../enums";
 export default class ShoppingCartController {
     static async buy({id, amount, type} : {id: string, amount: Double, type: OrderTypeEnum}): Promise<void> {
         try {
+            console.log("type: " + type);
             await PurchaseOrderService.store({assetId: id, amount: amount, type: type});
         } catch(err) {
             throw(err);

@@ -16,7 +16,8 @@ export default class OrderService {
         {asset, product, type, amount}: 
         {asset: AssetModel, product: any, type: OrderTypeEnum, amount: number}
     ): Promise<void> {
-        
+        console.log("type: " + type);
+
         const orderEntity = new OrderEntity({
             productId: product.id,
             assetId: asset.id,
@@ -24,7 +25,7 @@ export default class OrderService {
             assetPercent: asset.percent,
             assetPrice: asset.price,
             amount: amount,
-            type: OrderTypeToString(type)
+            type: type
         });
 
         await OrderRepository.create({data: orderEntity});

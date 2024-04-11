@@ -55,7 +55,7 @@ export default class OrderRepository {
     static async create({data}:{data: OrderEntity}): Promise<void> {
         
         await this.adapter.create({newData: data});
-        
+     
     }
 
     static async delete({id}:{id: string}): Promise<void> {

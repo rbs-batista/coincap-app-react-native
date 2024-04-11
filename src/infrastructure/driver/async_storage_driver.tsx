@@ -29,7 +29,7 @@ export default class AsyncStorageDriver {
         try {
             
             await AsyncStorage.setItem(key, JSON.stringify(data));
-            
+        
         } catch (err) {
             throw (err);
         }

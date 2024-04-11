@@ -3,11 +3,12 @@ import { FlatList, ScrollView, Text, View } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
-import { Dialog, Loading, Util } from '../../../../helpers';
+import { Dialog, Loading, Money, Util } from '../../../../helpers';
 import styles from "./styles";
 import { OrderModel } from '../../../../models';
 import OrderController from '../../../../controllers/order_controller';
 import { useFocusEffect } from '@react-navigation/native';
+import { OrderTypeTranslate } from '../../../../enums';
 
 export const Index = ({ navigation }: { navigation: any }) => {
 
@@ -17,6 +18,7 @@ export const Index = ({ navigation }: { navigation: any }) => {
 
   const fetchData = async () => {
     try {
+      
       Loading.start();
       const res = await OrderController.index();
       console.log(`Order fetchData: ${JSON.stringify(res)}`);
@@ -30,14 +32,14 @@ export const Index = ({ navigation }: { navigation: any }) => {
     }
   };
 
-  useFocusEffect(useCallback(() => {fetchData()}, []));
+  useEffect(() => {fetchData()}, []);
+  // useFocusEffect(useCallback(() => { fetchData() }, [fetchData]));
 
   useEffect(() => {
     const results = orders.filter(order =>
       order.assetName.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredOrders(results);
-
   }, [searchQuery, orders]);
 
   const handleNavigate = async ({ id }: { id: string }) => {
@@ -82,11 +84,11 @@ export const Index = ({ navigation }: { navigation: any }) => {
             >
               <ListItem.Content>
                 <ListItem.Title style={{ color: '#dde4eb', fontWeight: 'bold' }}>{item.assetName}</ListItem.Title>
-                <ListItem.Subtitle style={{ color: '#eff1f3' }}>OF {item.assetPrice}</ListItem.Subtitle>
+                <ListItem.Subtitle style={{ color: '#eff1f3' }}>{OrderTypeTranslate(item.type)}</ListItem.Subtitle>
               </ListItem.Content>
               <ListItem.Content style={{ alignItems: 'flex-end' }}>
-                <ListItem.Title style={{ color: '#fcffff' }}>{item.amount} USD</ListItem.Title>
-                <ListItem.Subtitle style={{ color: Util.isNegative({ value: item.assetPercent }) }}>{item.assetPercent} %</ListItem.Subtitle>
+                <ListItem.Title style={{ color: Util.isNegative({ value: item.amount }) }}>{Money.formatCurrency({value: item?.amount})} BRL</ListItem.Title>
+                <ListItem.Subtitle style={{ color: '#eff1f3' }}>{item.assetPercent} USD</ListItem.Subtitle>
               </ListItem.Content>
               <ListItem.Chevron style={{ color: '#3bdd8a' }} />
             </ListItem>
