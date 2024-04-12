@@ -206,8 +206,8 @@ export const Routes = () => {
 
     return (
         <NavigationContainer theme={Theme}>
-            {/* <MainStackNavigator /> */}
-            <BottomTabNavigator />
+            <MainStackNavigator />
+            {/* <BottomTabNavigator /> */}
         </NavigationContainer>
     )
 }
